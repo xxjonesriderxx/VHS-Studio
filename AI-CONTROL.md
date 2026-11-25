@@ -95,7 +95,7 @@ but does not cancel an already running processing job. GUI preferences and the
 startup profile remain on the current user's machine when the EXE is copied.
 
 OCR SQLite/JSON/CSV and processing logs remain inside the chosen destination:
-`_Verwaltung\VHS-Studio`. Preferences do not move those results to an AI service.
+`_Administration\VHS-Studio` (or existing German `_Verwaltung\VHS-Studio`). Preferences do not move those results to an AI service.
 
 ## Visual review write-back
 

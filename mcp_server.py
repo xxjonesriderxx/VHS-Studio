@@ -12,7 +12,7 @@ import time
 from typing import Literal
 import uuid
 
-VERSION="0.2.1"
+from app_version import VERSION
 JOBS=Path(os.environ.get("LOCALAPPDATA",Path.home()))/"VHS Studio"/"jobs"
 
 def reconnect_stdio():
@@ -57,6 +57,8 @@ def serve(request=None):
         cpu_mode: Literal["gentle","balanced","full","background"]="gentle"
         cpu_cores: int | None=Field(default=None,ge=1,le=64)
         archive: bool=False
+        notifications: bool=True
+        language: Literal['de','en']='en'
 
     mcp=FastMCP("VHS Studio",instructions="Restore digitised VHS recordings locally. Scan first, inspect the plan, then start_processing. Archive mode moves prior versions into archive folders. Export mode preserves inputs. OCR dates are clues and require visual verification. No cloud upload.")
 
@@ -101,7 +103,8 @@ def serve(request=None):
     @mcp.tool()
     def get_options() -> dict:
         """Return all restoration options, defaults, hardware limits and output formats."""
-        return dict(version=VERSION,options_schema=Options.model_json_schema(),cpu=dict(physical=psutil.cpu_count(logical=False),logical=psutil.cpu_count()),
+        import runtime_components
+        return dict(version=VERSION,components=runtime_components.status(),options_schema=Options.model_json_schema(),cpu=dict(physical=psutil.cpu_count(logical=False),logical=psutil.cpu_count()),
                     export_formats=["SQLite","JSON","CSV"],mcp_transport="stdio",notes=["QTGMC and FFmpeg are bundled.","OpenProteus 2x requires a Vulkan-capable GPU.","CPU limits do not cap GPU load."])
 
     @mcp.tool()
@@ -113,8 +116,8 @@ def serve(request=None):
         if not src.is_dir():
             raise ValueError("Source folder does not exist.")
         if settings["archive"]:
-            if src!=dst or not (src/"_Originalschnitte").is_dir():
-                raise ValueError("Archive mode requires the same source and output folder and an _Originalschnitte directory.")
+            if src!=dst:
+                raise ValueError("Archive mode requires the same source and output folder. Processing initializes missing archive folders in English and preserves existing German folders.")
         elif src==dst:
             raise ValueError("Export destination must differ from source.")
         if not any(settings[x] for x in ("deinterlace","replace","upscale","ocr")):
@@ -122,7 +125,7 @@ def serve(request=None):
         return launch(dict(settings,source=str(src),output=str(dst),scan_only=True),"scan")
 
     @mcp.tool()
-    def start_processing(scan_id: str) -> dict:
+    def start_processing(scan_id: str,origin: Literal['manual','autostart']='manual') -> dict:
         """Process a completed scan plan using its selected settings. This writes verified outputs and logs."""
         folder=location(scan_id)
         record=json.loads((folder/"job.json").read_text("utf8"))
@@ -132,7 +135,7 @@ def serve(request=None):
         if not plan or not plan["jobs"]:
             raise ValueError("The scan is unfinished or has no matching videos.")
         cfg=json.loads((folder/"config.json").read_text("utf8"))
-        cfg.update(scan_only=False,jobs=plan["jobs"])
+        cfg.update(scan_only=False,jobs=plan["jobs"],startup=origin=='autostart')
         return launch(cfg,"processing")
 
     @mcp.tool()
@@ -190,7 +193,8 @@ def serve(request=None):
         """Return OCR export paths and a frame-by-frame verification prompt for a processing job."""
         folder=location(job_id)
         cfg=json.loads((folder/"config.json").read_text("utf8"))
-        target=Path(cfg["output"])/"_Verwaltung/VHS-Studio"
+        from archive_layout import data_folder
+        target=data_folder(cfg['output'])
         export=target/"OCR-Fundstellen.json"
         if not export.exists():
             raise ValueError("OCR export is not available yet.")

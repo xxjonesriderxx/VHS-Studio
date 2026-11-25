@@ -45,7 +45,8 @@ using a record; crashed instances can leave stale descriptors.
 
 def describe():
     from mcp_server import serve
-    return dict(name='VHS Studio', version='0.2.1', guide=GUIDE,
+    from app_version import VERSION
+    return dict(name='VHS Studio', version=VERSION, guide=GUIDE,
                 capabilities=serve(request={'tool':'get_options','arguments':{}}))
 
 def command_line():

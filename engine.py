@@ -12,13 +12,15 @@ import tempfile
 import time
 import uuid
 from fractions import Fraction
+from contextlib import closing
 import runtime_components as runtime
+import archive_layout
 
 ROOT = Path(getattr(sys, "_MEIPASS", Path(__file__).parent))
 FFMPEG = runtime.asset('media','bin/ffmpeg.exe')
 FFPROBE = runtime.asset('media','bin/ffprobe.exe')
 EXTENSIONS = {".mkv", ".mp4", ".avi", ".mov", ".mpg", ".mpeg", ".vob", ".mts", ".m2ts", ".dv"}
-EXCLUDED = {"_Originalschnitte", "_Deinterlaced", "_Schnittkorrektur", "_Verwaltung", "_Autostart-Transfer", "$RECYCLE.BIN", "System Volume Information"}
+EXCLUDED = archive_layout.EXCLUDED | {"_Autostart-Transfer", "$RECYCLE.BIN", "System Volume Information"}
 STAGE = re.compile(r" - (Original|Deinterlaced(?: QTGMC| BWDIF)?|OpenProteus)$", re.I)
 EVENTS = None
 STOP_FILE = None
@@ -86,8 +88,8 @@ def discover(cfg):
                 if cfg["replace"] and " - Deinterlaced" in path.stem:
                     comment = info["format"].get("tags", {}).get("comment", "")
                     if "QTGMC" not in comment and ("BWDIF" in comment or not comment):
-                        old = source / "_Originalschnitte" / path.relative_to(source).with_name(STAGE.sub("", path.stem) + " - Original.mkv")
-                        if old.exists() and probe(old)["interlaced"]:
+                        old = archive_layout.original(source,path.relative_to(source),STAGE.sub('',path.stem))
+                        if old and probe(old)["interlaced"]:
                             actual, replacement = old, True
                             actions.append("QTGMC-Austausch")
                 if cfg["deinterlace"] and not processed:
@@ -381,15 +383,15 @@ def process_job(cfg,job,logdir,db):
                 backup=None
                 if cfg["archive"]:
                     if not top:
-                        dest=output/"_Deinterlaced"/relative.parent/prepared.name
+                        dest=archive_layout.folder(output,'deinterlaced')/relative.parent/prepared.name
                     if job["replace"] and stage=="Deinterlaced" and top:
-                        dest,backup=path,output/"_Deinterlaced/_BWDIF"/relative
+                        dest,backup=path,archive_layout.folder(output,'deinterlaced')/'_BWDIF'/relative
                 transfers.append((prepared,dest,backup))
             if cfg["archive"] and job["replace"] and len(rendered)>1:
-                transfers.append((path,output/"_Deinterlaced/_BWDIF"/relative,None))
+                transfers.append((path,archive_layout.folder(output,'deinterlaced')/'_BWDIF'/relative,None))
             if cfg["archive"] and not job["replace"]:
-                old_stage="_Deinterlaced" if "Deinterlaced" in path.stem else "_Originalschnitte"
-                transfers.append((path,output/old_stage/relative,None))
+                old_stage='deinterlaced' if 'Deinterlaced' in path.stem else 'originals'
+                transfers.append((path,archive_layout.folder(output,old_stage)/relative,None))
             check_cancel()
             emit("progress",progress=1,label="Prüfsumme und Ablage")
             hashes=[(dest,sha(prepared)) for prepared,dest,_ in transfers]
@@ -411,12 +413,20 @@ def worker(config,event_file):
     import psutil
     EVENTS=open(event_file,"a",encoding="utf8",buffering=1)
     cfg=json.loads(Path(config).read_text("utf8"))
+    def notify(title_de,title_en,body_de,body_en):
+        if not cfg.get('scan_only') and cfg.get('notifications',True):
+            from notifications import send
+            de=cfg.get('language','en')=='de'
+            send(title_de if de else title_en,body_de if de else body_en)
     STOP_FILE=Path(config).parent/"stop"
     OCR_RATE=float(cfg.get("ocr_rate",1.0))
     BACKGROUND_GPU = cfg.get('cpu_mode') == 'background'
     if OCR_RATE not in (.25,.5,1,2,4):
         raise ValueError("Ungültiges OCR-Raster.")
     try:
+        notify('VHS Studio · Autostart gestartet' if cfg.get('startup') else 'VHS Studio · Restaurierung gestartet',
+               'VHS Studio · Auto-start began' if cfg.get('startup') else 'VHS Studio · Restoration started',
+               'Der geplante Videolauf wurde gestartet.','The scheduled video batch has started.')
         def dependency_progress(name,current,total):
             check_cancel()
             emit('progress',progress=current/max(total,1),label=f'Komponenten laden · {name} · {current/1e6:.1f}/{total/1e6:.1f} MB')
@@ -435,7 +445,9 @@ def worker(config,event_file):
             return
         output=Path(cfg["output"]).resolve()
         output.mkdir(parents=True,exist_ok=True)
-        logdir=output/"_Verwaltung/VHS-Studio"
+        if cfg['archive']:
+            archive_layout.initialize(output)
+        logdir=archive_layout.data_folder(output)
         logdir.mkdir(parents=True,exist_ok=True)
         import msvcrt
         lockpath=Path(cfg["source"])/".bearbeitung.lock" if cfg["archive"] else logdir/".lauf.lock"
@@ -448,7 +460,7 @@ def worker(config,event_file):
                 msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
             except OSError:
                 raise RuntimeError("Der Ordner wird bereits bearbeitet. Nach Abschluss des laufenden Jobs erneut starten.")
-            with sqlite3.connect(logdir/"VHS-Studio.sqlite3") as db:
+            with closing(sqlite3.connect(logdir/"VHS-Studio.sqlite3")) as db:
                 db.executescript("""
                 CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,input TEXT,output TEXT,finished TEXT,details TEXT);
                 CREATE TABLE IF NOT EXISTS ocr_videos(id INTEGER PRIMARY KEY,path TEXT,size INTEGER,mtime_ns INTEGER,next_second INTEGER,done INTEGER,UNIQUE(path,size,mtime_ns));
@@ -475,9 +487,17 @@ def worker(config,event_file):
                     export_ocr(db,logdir)
                 if not STOP_FILE.exists():
                     emit("done",total=len(jobs),failed=failed,output=str(output))
+                    notify('VHS Studio · Lauf abgeschlossen','VHS Studio · Batch complete',
+                        f'{len(jobs)-failed} erfolgreich, {failed} Fehler. Der geplante Lauf ist beendet.',
+                        f'{len(jobs)-failed} successful, {failed} failed. The scheduled batch has finished.')
+                else:
+                    notify('VHS Studio · Lauf abgebrochen','VHS Studio · Batch cancelled',
+                        'Fertige Ergebnisse bleiben erhalten.','Completed outputs have been kept.')
                 shutil.copyfile(event_file,logdir/("Lauf-"+time.strftime("%Y%m%d-%H%M%S")+".jsonl"))
     except BaseException as exc:
         emit("fatal",message=str(exc))
+        notify('VHS Studio · Lauf fehlgeschlagen','VHS Studio · Batch failed',str(exc),str(exc))
         raise
     finally:
         EVENTS.close()
+        EVENTS=None

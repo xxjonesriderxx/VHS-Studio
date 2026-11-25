@@ -18,8 +18,6 @@ _ready={}
 _dll_handles=[]
 
 def manifest():
-    if not getattr(sys,'frozen',False):
-        return None
     path=ROOT/'runtime-manifest.json'
     return json.loads(path.read_text('utf8')) if path.exists() else None
 
@@ -41,8 +39,10 @@ def cache_root():
 
 def candidates(name, data):
     pack=data['packs'][name]
-    return [EXE_DIR/'components'/data['version']/name,
-            cache_root()/data['version']/(name+'-'+pack['sha256'][:16])]
+    paths=[EXE_DIR/'components'/data['version']/name]
+    if not getattr(sys,'frozen',False):
+        paths.append(ROOT/'hybrid-stage/components'/data['version']/name)
+    return paths+[cache_root()/data['version']/(name+'-'+pack['sha256'][:16])]
 
 def valid(folder, pack, full=True):
     for name, spec in pack['files'].items():

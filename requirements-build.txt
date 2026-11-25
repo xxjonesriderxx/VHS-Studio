@@ -1,0 +1,17 @@
+# Python 3.12 x64. Build inside a dedicated virtual environment.
+pyinstaller==6.22.3
+customtkinter==6.0.0
+pillow==12.3.0
+mcp==1.30.0
+pywin32==312
+vsjetpack[deinterlace]==2.2.7
+scipy>=1.17,<2
+numpy>=2,<3
+psutil>=7,<8
+winrt-runtime
+winrt-Windows.Foundation
+winrt-Windows.Foundation.Collections
+winrt-Windows.Globalization
+winrt-Windows.Graphics.Imaging
+winrt-Windows.Media.Ocr
+winrt-Windows.Storage.Streams

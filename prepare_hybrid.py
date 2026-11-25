@@ -11,7 +11,7 @@ from urllib.error import HTTPError
 import zipfile
 
 HERE=Path(__file__).resolve().parent
-VERSION='0.3.0'
+from app_version import VERSION
 STAGE=HERE/'hybrid-stage'
 DOWNLOADS=HERE/'upstream-cache'
 PACKAGES=[('VapourSynth','82'),('vapoursynth-bestsource','23'),('vapoursynth-fmtconv','31.1'),
@@ -58,6 +58,18 @@ def install_stage(name, item):
             out.write_bytes(z.read(member))
 
 def main():
+    import sys
+    lock=HERE/'runtime-manifest.json'
+    if lock.exists() and '--refresh' not in sys.argv:
+        result=json.loads(lock.read_text('utf8'))
+        result['version']=VERSION
+        for name,pack in result['packs'].items():
+            for item in pack['archives']:
+                download(item['url'],item['sha256'])
+                install_stage(name,item)
+        lock.write_text(json.dumps(result,indent=2),encoding='utf8')
+        print('Prepared locked upstream components for',VERSION,flush=True)
+        return
     packs={}
     # Versioned Gyan release builds (linked by ffmpeg.org), never git snapshots.
     version=urlopen('https://www.gyan.dev/ffmpeg/builds/release-version',timeout=30).read().decode().strip()

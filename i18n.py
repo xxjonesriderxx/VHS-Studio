@@ -122,6 +122,20 @@ def translate(language, text):
     pattern=re.compile("|".join(re.escape(key) for key in sorted(keys,key=len,reverse=True)))
     return pattern.sub(lambda m:EN[m.group()],text)
 
+HELP_DE = """1. Wähle den Ordner mit deinen digitalisierten VHS-Aufnahmen.
+2. Wähle Ausgabeordner oder Familienarchiv und die gewünschten Schritte.
+3. Prüfe die Dateien, sieh die Warteschlange an und starte die Restaurierung.
+
+QTGMC korrigiert Halbbilder mit Bewegungsschätzung. BWDIF ist die schnellere Alternative. OpenProteus vergrößert zweifach und benötigt eine Vulkan-Grafikkarte. Das Modell hat eine eigene nichtkommerzielle Lizenz.
+
+Die Datumsfunde enthalten OCR-Rohdaten und separate KI-Bewertungen. Per Doppelklick öffnest du Begründung und Verlauf. Eine KI mit lokalem Dateizugriff kann den kopierten Prüfauftrag ausführen und ihre Bewertung zurückschreiben. Es wird keine KI automatisch beauftragt und nichts automatisch geschnitten.
+
+Neue Archive verwenden _OriginalCuts, _Deinterlaced, _CutCorrections und _Administration. Bereits vorhandene deutsche Ordner wie _Originalschnitte und _Verwaltung werden weiterverwendet. Fehlende Strukturen können im Archivmodus angelegt werden. Export erhält die Quelldateien; Archivmodus verschiebt frühere Fassungen nach geprüfter Ausgabe.
+
+Die portable ZIP enthält alle Komponenten. Die einzelne EXE enthält Python und die Oberfläche; fehlende große Werkzeuge lädt sie aus festgelegten Originalquellen in den Benutzerordner. Administratorrechte sind nicht nötig. Windows 10/11 x64 und passende Hardware werden benötigt. Updates werden beim GUI-Start geprüft und erst ohne laufende Aufgaben eingespielt.
+
+Letzte Einstellungen werden gespeichert. Autostart ist optional und verwendet eine separate, ausdrücklich aktivierte Profilkopie."""
+
 HELP_EN = """1. Choose a folder with digitised VHS recordings.
 2. Choose the output folder or the family archive, and enable the desired steps.
 3. Check files, review the queue, then start restoration.
@@ -132,9 +146,11 @@ OCR reads visible dates at the selected frame frequency. Its findings are saved 
 
 The Date findings tab lets you copy either the data or an AI review prompt. The prompt asks an AI with local file access to verify the dates and locate the actual scene boundaries frame by frame. Copying a prompt does not run an AI.
 
-Archive mode keeps the year/quarter folder structure and saves the prior versions in _Originalschnitte, _Deinterlaced or _Deinterlaced/_BWDIF.
+New archives use _OriginalCuts, _Deinterlaced, _CutCorrections and _Administration. Existing German folders such as _Originalschnitte and _Verwaltung are reused. Missing archive folders can be created from the interface. Export preserves sources; archive mode moves prior versions after verified publication.
 
-The EXE includes the tools and the model and temporarily extracts them at launch. Windows 10/11 x64 with AVX2 is required. Enable Limit CPU load to leave more resources for other apps."""
+The offline ZIP includes the tools. The standalone EXE bundles Python, the interface and the small OpenProteus model; missing large tools are downloaded from pinned upstream sources into the user folder. No administrator access is required. OpenProteus has its own noncommercial model license. Windows 10/11 x64 and suitable hardware are required. Resource modes explain CPU limits and GPU pacing.
+
+The GUI checks stable GitHub releases at startup and applies verified updates only when tasks have finished. Settings are remembered locally. Optional login startup uses a separately enabled profile."""
 
 TOOLTIPS = {
 "source": (
@@ -144,8 +160,8 @@ TOOLTIPS = {
 "Beim Export bleiben die Aufnahmen im Quellordner erhalten. Die Unterordnerstruktur wird in der Ausgabe übernommen.",
 "Export keeps the source recordings. The relative folder structure is retained in the output."),
 "mode": (
-"Export legt neue Dateien im Ausgabeordner ab. Archivmodus verschiebt frühere Fassungen in die Archiv-Unterordner, nachdem die Ausgabe geprüft ist.",
-"Export saves new files in the output folder. Archive mode moves prior versions into archive subfolders after verification."),
+"Export erhält die Quellen. Archivmodus verschiebt frühere Fassungen nach Prüfung in Archivordner. Neue Ordner bekommen englische Namen, vorhandene deutsche werden weiterverwendet. Fehlende Strukturen lassen sich direkt anlegen.",
+"Export preserves sources. Archive mode moves earlier versions into archive folders after verification. New folders use English names; existing German folders are reused. Missing folders can be created directly."),
 "deint": (
 "VHS besteht meist aus zwei zeitlich versetzten Halbbildern. Deinterlacing erzeugt daraus ruhige Vollbilder, bei PAL normalerweise 50 Bilder/s.",
 "VHS usually contains two fields captured at different times. Deinterlacing turns them into progressive frames, typically 50 fps for PAL."),
@@ -186,3 +202,7 @@ EN.update({"Ressourcen":"Resources", "Noch keine Dateien geprüft.\nQuelle wähl
 EN.update({"Mehrere Aufnahmetage auf einer Kassette?\nHinweise für eine spätere Trennung finden.":"Several recording days on one tape?\nFind clues for splitting the footage later.", "Nur Fundstellen · kein automatischer Schnitt.":"Findings only · no automatic cutting."})
 EN.update({'OCR-Datum':'OCR date','Geprüftes Datum':'Reviewed date','Grenze (s)':'Boundary (s)','Prüfstatus':'Review status','Prüfer / Modell':'Reviewer / model','Bestätigt':'Verified','Korrigiert':'Corrected','Unklar':'Uncertain','Fehlfund':'Rejected','Ungeprüft':'Unreviewed','Prüfdetails':'Review details','Prüfverlauf':'Review history','Doppelklick: Prüfdetails · Prüferangaben sind Selbstauskünfte.':'Double-click: review details · attribution is self-reported.'})
 EN.update({'Unsicherheit (s)':'Uncertainty (s)','Begründung':'Evidence and reasoning','Geprüft am':'Reviewed at','Quelle verändert / fehlt':'Source changed / missing'})
+EN.update({'Update wird geladen …':'Downloading update …','Update bereit · wartet auf laufende Aufgaben':'Update ready · waiting for active tasks','Update konnte nicht installiert werden: ':'Could not install update: ','Updateprüfung nicht verfügbar: ':'Update check unavailable: ','Komponenten laden':'Downloading components'})
+EN.update({'Modell inklusive · nichtkommerziell':'Model included · noncommercial'})
+EN.update({'Windows-Benachrichtigungen':'Windows notifications'})
+EN.update({'Familienarchiv einrichten':'Set up family archive','Archiveinrichtung abgebrochen.':'Archive setup cancelled.', 'Archivstruktur anlegen?\n\nNeue Archive verwenden _OriginalCuts, _Deinterlaced, _CutCorrections und _Administration. Vorhandene deutsche Ordner werden weiterverwendet. Jetzt werden nur Ordner angelegt; Videos werden erst nach »Restaurierung starten« bearbeitet und archiviert.':'Create the archive folders?\n\nNew archives use _OriginalCuts, _Deinterlaced, _CutCorrections and _Administration. Existing German folders are reused. Only folders will be created now; recordings are processed and archived only after you select Start restoration.'})

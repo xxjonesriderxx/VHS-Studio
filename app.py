@@ -19,6 +19,10 @@ if getattr(sys, 'frozen', False):
     for directory in (HERE, HERE / 'vapoursynth', HERE / 'upscale_ncnn_py'):
         if directory.exists():
             os.add_dll_directory(str(directory))
+if '--apply-update' in sys.argv:
+    from app_updates import apply
+    apply(sys.argv[sys.argv.index('--apply-update')+1])
+    sys.exit(0)
 if '--autostart' in sys.argv:
     from preferences import run_startup
     run_startup()
@@ -49,10 +53,12 @@ from PIL import Image
 import psutil
 import sqlite3
 from contextlib import closing
-from i18n import translate, TOOLTIPS, HELP_EN, OCR_PURPOSE
+from i18n import translate, TOOLTIPS, HELP_EN, HELP_DE, OCR_PURPOSE
 from review import review_prompt
 from ui_icons import icon
 import preferences
+import archive_layout
+from app_version import VERSION
 ctk.set_appearance_mode('dark')
 BG = '#111820'
 PANEL = '#19242e'
@@ -138,6 +144,9 @@ class Studio(ctk.CTk):
         self.protocol('WM_DELETE_WINDOW', self.close)
         self.after(150, self.poll)
         self.after(2000, self.autosave)
+        self.update_result = None
+        self.update_info = None
+        self.after(2500, self.start_update_check)
         if '--screenshot-test' in sys.argv:
             self.after(1500, self.test_ready)
 
@@ -229,7 +238,7 @@ class Studio(ctk.CTk):
         self.upscale = ctk.CTkSwitch(cards[1], text=self.t('Details vergrößern'), font=('Inter', 15, 'bold'), progress_color=ACCENT, command=self.invalidate)
         self.upscale.grid(row=0, column=0, padx=17, pady=(18, 8), sticky='w')
         self.label(cards[1], self.t('OpenProteus · zweifache Bildgröße'), 12, MUTED).grid(row=1, column=0, sticky='w', padx=17)
-        self.label(cards[1], self.t('KI-Modell inklusive'), 14).grid(row=2, column=0, padx=17, pady=14, sticky='w')
+        self.label(cards[1], self.t('Modell inklusive · nichtkommerziell'), 13).grid(row=2, column=0, padx=17, pady=14, sticky='w')
         self.label(cards[1], self.t('Benötigt eine Vulkan-fähige Grafikkarte.\nVHS wird vorab deinterlaced.'), 12, MUTED, justify='left').grid(row=3, column=0, padx=17, pady=(0, 15), sticky='w')
         self.ocr = ctk.CTkSwitch(cards[2], text=self.t('Datumsstempel lesen'), font=('Inter', 15, 'bold'), progress_color=ACCENT, command=self.invalidate)
         self.ocr.grid(row=0, column=0, padx=17, pady=(18, 8), sticky='w')
@@ -333,6 +342,10 @@ class Studio(ctk.CTk):
         self.progress = ctk.CTkProgressBar(footer, height=6, progress_color=ACCENT, fg_color=EDGE)
         self.progress.set(0)
         self.progress.grid(row=2, column=0, sticky='ew', padx=(0, 18))
+        self.notifications=ctk.CTkCheckBox(footer,text=self.t('Windows-Benachrichtigungen'),font=('Inter',11),
+            checkbox_width=15,checkbox_height=15,fg_color=ACCENT,checkmark_color=BG,command=self.save_settings)
+        self.notifications.select()
+        self.notifications.grid(row=3,column=0,sticky='w',pady=(9,0))
         buttons = ctk.CTkFrame(footer, fg_color='transparent')
         buttons.grid(row=0, column=1, rowspan=3, sticky='e')
         self.scan_button = ctk.CTkButton(buttons, text=self.t('Dateien prüfen'), width=135, height=42, fg_color=EDGE, hover_color='#3d5262', command=self.scan)
@@ -341,8 +354,8 @@ class Studio(ctk.CTk):
         self.start_button.grid(row=0, column=1)
         self.stop_button = ctk.CTkButton(buttons, text=self.t('Abbrechen'), width=100, height=30, fg_color='transparent', text_color=MUTED, hover_color=EDGE, command=self.stop, state='disabled')
         self.stop_button.grid(row=1, column=1, sticky='e', pady=(5, 0))
-        self.options = [self.source, self.output, self.mode, self.source_button, self.output_button, self.deint, self.method, self.replace, self.upscale, self.ocr, self.recursive, self.limit, self.cpu, self.rate, self.language_button, self.autostart_button]
-        self.version_label = self.label(header, 'v0.2.1 · GPLv3', 11, MUTED)
+        self.options = [self.source, self.output, self.mode, self.source_button, self.output_button, self.deint, self.method, self.replace, self.upscale, self.ocr, self.recursive, self.limit, self.cpu, self.rate, self.language_button, self.autostart_button,self.notifications]
+        self.version_label = self.label(header, f'v{VERSION} · MIT', 11, MUTED)
         self.version_label.grid(row=2, column=1, sticky='w', pady=(3, 0))
         self.mcp_button = ctk.CTkButton(actions, text='KI / MCP' if self.language == 'de' else 'AI / MCP', image=self.ai_icon, width=105, height=34, fg_color=PANEL, hover_color=EDGE, command=self.show_mcp)
         self.mcp_button.grid(row=1, column=1)
@@ -432,14 +445,18 @@ class Studio(ctk.CTk):
         archive = self.mode.get() == self.t('Familienarchiv fortführen')
         if not archive and source.resolve() == output.resolve():
             raise ValueError(self.t('Für den Export bitte einen anderen Ausgabeordner wählen.'))
-        if archive and (not (source / '_Originalschnitte').is_dir()):
-            raise ValueError(self.t('Der Archivmodus benötigt die Familienarchiv-Struktur mit _Originalschnitte.'))
+        if archive and not archive_layout.initialized(source):
+            prompt=self.t('Archivstruktur anlegen?\n\nNeue Archive verwenden _OriginalCuts, _Deinterlaced, _CutCorrections und _Administration. Vorhandene deutsche Ordner werden weiterverwendet. Jetzt werden nur Ordner angelegt; Videos werden erst nach »Restaurierung starten« bearbeitet und archiviert.')
+            if not messagebox.askyesno(self.t('Familienarchiv einrichten'),prompt,parent=self):
+                raise ValueError(self.t('Archiveinrichtung abgebrochen.'))
+            archive_layout.initialize(source)
         limit = int(self.limit.get())
         if limit < 0:
             raise ValueError(self.t('Dateibegrenzung muss 0 oder größer sein.'))
         options = dict(deinterlace=bool(self.deint.get()), replace=bool(self.replace.get()), upscale=bool(self.upscale.get()), ocr=bool(self.ocr.get()))
         if not any(options.values()):
             raise ValueError(self.t('Bitte mindestens eine Bearbeitung aktivieren.'))
+        options.update(notifications=bool(self.notifications.get()),language=self.language)
         return dict(source=str(source.resolve()), output=str(output.resolve()), archive=archive, method=self.method.get(), recursive=bool(self.recursive.get()), limit=limit, gentle=self.cpu.get() == self.t(self.t('Schonend')), cpu_mode=dict(zip([self.t(x) for x in self.cpu_names], ['gentle', 'balanced', 'full', 'background']))[self.cpu.get()], ocr_rate=[0.25, 0.5, 1.0, 2.0, 4.0][round(self.rate.get())], **options)
 
     def launch(self, cfg, scan):
@@ -623,7 +640,7 @@ class Studio(ctk.CTk):
         destination = self.run_config['output'] if self.proc and self.run_config else self.output.get()
         if not destination:
             return
-        dbpath = Path(destination).resolve() / '_Verwaltung/VHS-Studio/VHS-Studio.sqlite3'
+        dbpath = archive_layout.data_folder(Path(destination).resolve())/'VHS-Studio.sqlite3'
         if not dbpath.exists():
             return
         try:
@@ -782,7 +799,7 @@ class Studio(ctk.CTk):
     def settings_snapshot(self):
         return dict(language=self.language, source=self.source.get(), output=self.output.get(),
             archive=self.mode.get()==self.t('Familienarchiv fortführen'), method=self.method.get(),
-            **{k:bool(getattr(self,k).get()) for k in ('deint','replace','upscale','ocr','recursive')},
+            **{k:bool(getattr(self,k).get()) for k in ('deint','replace','upscale','ocr','recursive','notifications')},
             limit=self.limit.get(), rate=round(self.rate.get()),
             cpu=[self.t(x) for x in self.cpu_names].index(self.cpu.get()))
 
@@ -798,7 +815,7 @@ class Studio(ctk.CTk):
         self.mode.set(self.t('Familienarchiv fortführen') if saved.get('archive') else self.t('In Ausgabeordner exportieren'))
         if saved.get('method') in ('QTGMC','BWDIF'):
             self.method.set(saved['method'])
-        for name in ('deint','replace','upscale','ocr','recursive'):
+        for name in ('deint','replace','upscale','ocr','recursive','notifications'):
             if name in saved:
                 getattr(self,name).select() if saved[name] else getattr(self,name).deselect()
         self.cpu.set(self.t(self.cpu_names[max(0,min(3,int(saved.get('cpu',0))))]))
@@ -822,6 +839,49 @@ class Studio(ctk.CTk):
             self.load_stamps(notify=False)
         self.sync_controls()
         self.after(2000,self.autosave)
+
+    def start_update_check(self):
+        if not getattr(sys,'frozen',False) or '--skip-update' in sys.argv:
+            return
+        import threading
+        def check():
+            try:
+                import app_updates
+                info=app_updates.latest()
+                if info:
+                    self.update_info=info
+                    self.update_result=('downloading',None)
+                    staged=app_updates.stage(info)
+                    self.update_result=('ready',staged)
+                else:
+                    self.update_result=('current',None)
+            except Exception as error:
+                self.update_result=('error',str(error))
+        threading.Thread(target=check,daemon=True).start()
+        self.after(500,self.poll_update)
+
+    def poll_update(self):
+        result=self.update_result
+        if result is None:
+            self.after(500,self.poll_update);return
+        state,payload=result
+        if state=='downloading':
+            self.version_label.configure(text=f'v{VERSION} · '+self.t('Update wird geladen …'))
+            self.after(500,self.poll_update);return
+        if state=='ready':
+            import app_updates
+            if self.proc or app_updates.other_instances():
+                self.version_label.configure(text=self.t('Update bereit · wartet auf laufende Aufgaben'))
+                self.after(2000,self.poll_update);return
+            try:
+                self.save_settings()
+                app_updates.launch_helper(payload,self.update_info)
+                self.destroy()
+            except Exception as error:
+                self.write(self.t('Update konnte nicht installiert werden: ')+str(error))
+            return
+        if state=='error':
+            self.write(self.t('Updateprüfung nicht verfügbar: ')+payload)
 
     def show_autostart(self):
         dialog=ctk.CTkToplevel(self)
@@ -857,7 +917,7 @@ class Studio(ctk.CTk):
         dialog.title(self.t('KI-Prüfauftrag ansehen'))
         dialog.geometry('800x580')
         dialog.transient(self)
-        folder = Path(self.output.get()) / '_Verwaltung/VHS-Studio'
+        folder = archive_layout.data_folder(self.output.get())
         try:
             if not self.output.get():
                 raise ValueError('No destination')
@@ -874,7 +934,7 @@ class Studio(ctk.CTk):
         ctk.CTkButton(dialog, text=self.t('KI-Prüfauftrag kopieren'), command=copy).pack(pady=(0, 20))
 
     def copy_ocr(self, prompt):
-        folder = Path(self.output.get()) / '_Verwaltung/VHS-Studio'
+        folder = archive_layout.data_folder(self.output.get())
         try:
             if prompt:
                 text = review_prompt(folder, self.language)
@@ -911,8 +971,9 @@ class Studio(ctk.CTk):
         ctk.CTkButton(dialog, text='Konfiguration kopieren' if self.language == 'de' else 'Copy configuration', command=copy).pack(padx=22, pady=17, anchor='e')
 
     def help(self):
-        text = HELP_EN if self.language == 'en' else '1. Ordner mit digitalisierten VHS-Aufnahmen wählen.\n2. Ausgabeordner oder Familienarchiv wählen und Bearbeitung einschalten.\n3. Dateien prüfen, Warteschlange ansehen, Restaurierung starten.\n\nQTGMC rekonstruiert Halbbilder mit hoher Qualität. BWDIF ist schneller. OpenProteus verdoppelt die Bildgröße und benötigt Vulkan-Grafiktreiber.\n\nOCR liest Stempel mit dem gewählten Scan-Raster. Die Ergebnisse liegen als SQLite, JSON und CSV im Zielordner. Im Reiter Datumsfunde lassen sich die Daten und ein fertiger KI-Prüfauftrag kopieren. Die KI muss Zugriff auf die lokalen Videos haben. OCR und Kamerastempel können falsch sein.\n\nArchivmodus sichert Originale unter _Originalschnitte, Deinterlaced vor Upscaling unter _Deinterlaced und BWDIF unter _Deinterlaced/_BWDIF.\n\nDie EXE enthält Programme und Modell. Sie entpackt sie vorübergehend beim Start. Windows 10/11 x64 mit AVX2 wird benötigt. Tooltips erklären die CPU-Modi und alle Bearbeitungsoptionen.\n\nVHS Studio 0.2.0 · Eigener App-Code unter GPLv3. Fremdkomponenten behalten ihre eigenen Lizenzen. Das Quellprojekt und die Komponentenhinweise gehören zur Weitergabe.'
+        text = HELP_EN if self.language == 'en' else HELP_DE
         text = OCR_PURPOSE[0 if self.language == 'de' else 1] + '\n\n' + text
+        text += f'\n\nVHS Studio v{VERSION} · MIT\n' + ('Fremdkomponenten und Modell behalten ihre eigenen Lizenzen.' if self.language=='de' else 'Third-party tools and model weights retain their own licenses.')
         dialog = ctk.CTkToplevel(self)
         dialog.title(self.t('So funktioniert’s'))
         dialog.geometry('780x640')

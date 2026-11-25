@@ -90,6 +90,15 @@ def run_startup():
             time.sleep(.5)
     def log(**fields):
         write_json(root/'autostart-status.json', dict(updated=time.strftime('%Y-%m-%d %H:%M:%S'), **fields))
+        if fields.get('state') in ('nothing_pending','error') and cfg.get('notifications',True):
+            from notifications import send
+            de=cfg.get('language','en')=='de'
+            if fields['state']=='nothing_pending':
+                send('VHS Studio · Autostart abgeschlossen' if de else 'VHS Studio · Auto-start complete',
+                     'Keine ausstehenden Dateien für diesen Lauf.' if de else 'No pending recordings for this batch.')
+            else:
+                send('VHS Studio · Autostart fehlgeschlagen' if de else 'VHS Studio · Auto-start failed',fields.get('error',''))
+    cfg={}
     with (root/'autostart.lock').open('a+b') as lock:
         lock.seek(0)
         if not lock.read(1):
@@ -135,12 +144,13 @@ def run_startup():
             from mcp_server import JOBS
             with (JOBS/scan['id']/'events.jsonl').open('a',encoding='utf8') as stream:
                 stream.write(json.dumps(dict(event='plan',jobs=pending,errors=plan.get('errors',[])))+'\n')
-            job=call('start_processing',scan_id=scan['id'])
+            job=call('start_processing',scan_id=scan['id'],origin='autostart')
             log(state='processing',job_id=job['id'],count=len(pending))
             status=wait(job)
             # Keep each successful file even if another file failed.
             import sqlite3
-            database=Path(cfg['output'])/'_Verwaltung/VHS-Studio/VHS-Studio.sqlite3'
+            from archive_layout import data_folder
+            database=data_folder(cfg['output'])/'VHS-Studio.sqlite3'
             for result in status['results']:
                 if result['status']!='Fertig':
                     continue

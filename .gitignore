@@ -24,6 +24,7 @@ autostart*.json
 *-config.json
 test-*/
 feedback-*/
+feedback-*.json
 *.mkv
 *.mp4
 *.avi
@@ -35,3 +36,6 @@ feedback-*/
 *.pth
 *.onnx
 *.ico
+.checks/
+test-*.json
+test-*.jsonl
