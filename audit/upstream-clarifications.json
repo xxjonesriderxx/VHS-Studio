@@ -1,0 +1,38 @@
+[
+  {
+    "repository": "myrsloik/mvutensils",
+    "issue": "17",
+    "author": "myrsloik",
+    "author_association": "OWNER",
+    "body": "It's GPLv2 or later. The only v2 only file (which is probably a typo since the author made every other contributed file v2 or later) has been rewritten by me to such an extent I can safely add it.\n\nNot that it really matters if you just load it as a plugin. I think.",
+    "html_url": "https://github.com/myrsloik/mvutensils/issues/17#issuecomment-6954012372",
+    "created_at": "2026-11-17T16:24:33Z"
+  },
+  {
+    "repository": "myrsloik/mvutensils",
+    "issue": "17",
+    "author": "sjrum",
+    "author_association": "NONE",
+    "body": "Thanks for clearing that up, much appreciated!",
+    "html_url": "https://github.com/myrsloik/mvutensils/issues/17#issuecomment-6973527923",
+    "created_at": "2026-11-18T08:44:03Z"
+  },
+  {
+    "repository": "sekrit-twc/znedi3",
+    "issue": "28",
+    "author": "sekrit-twc",
+    "author_association": "OWNER",
+    "body": "zn is based on nnedi3, which is property of tritical. Its license is as-stated in the repo.",
+    "html_url": "https://github.com/sekrit-twc/znedi3/issues/28#issuecomment-6662028535",
+    "created_at": "2026-11-05T15:32:11Z"
+  },
+  {
+    "repository": "sekrit-twc/znedi3",
+    "issue": "28",
+    "author": "sjrum",
+    "author_association": "NONE",
+    "body": "Thanks for clarifying, I appreciate you taking the time to respond!",
+    "html_url": "https://github.com/sekrit-twc/znedi3/issues/28#issuecomment-6667318574",
+    "created_at": "2026-11-05T19:32:29Z"
+  }
+]

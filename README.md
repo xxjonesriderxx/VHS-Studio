@@ -18,12 +18,17 @@ Get the latest files from [Releases](https://github.com/xxjonesriderxx/VHS-Studi
 
 | Download | Choose this when… |
 | --- | --- |
-| **Portable ZIP** | You want the app and all its components together, including offline use. Extract the entire folder. |
-| **Standalone EXE** | You prefer one file. Missing large components download automatically from verified upstream releases. |
+| **Portable ZIP** | You want the launcher with its documentation. Extract the folder and run the EXE. Internet is needed on first use. |
+| **Standalone EXE** | You prefer one file. Python and required components download directly from their original providers on first use. |
 
-Python is included. No administrator rights or system-wide installation are
-required. The app checks for updates at startup and waits for running tasks
-before applying them.
+This release distributes the project's own launcher and app sources. It obtains
+a pinned Python runtime from Astral's Python Build Standalone project, original
+Python wheels from PyPI, and video components from their upstream providers.
+Downloads are checked against pinned SHA-256 hashes and stay in your user folder.
+No administrator rights or system-wide installation are required. Components
+already downloaded can be reused offline. A prefilled, fully offline bundle is
+not included in this release. The app checks for updates at startup and waits for
+running tasks before applying them.
 
 ## What you can do
 
@@ -73,15 +78,14 @@ and an available recognition language. Other systems are not yet validated.
 
 ## Development
 
-Build with Python 3.12 x64 in a dedicated environment:
+Build the launcher on Windows with Python 3.12+ and the Windows .NET Framework
+C# compiler. The build embeds only the project's own source files and metadata:
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements-build.txt
-.venv\Scripts\python build_release.py
+python build_bootstrap.py
 ```
 
-The build creates both application downloads in `dist/`. Dependency versions,
+The build creates the launcher in `bootstrap-dist/`. Dependency versions,
 original download sources and checksums are pinned in the manifests. Binaries,
 weights, local settings, databases, logs and family footage are excluded from Git.
 Please keep personal files and paths out of public issue reports.

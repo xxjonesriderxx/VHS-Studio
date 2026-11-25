@@ -19,6 +19,14 @@ for bad in ('v1.0.0','2026-02-30','2026-11','2026-11-25-beta'):
 
 blob=b'SYNTHETIC UPDATE, NOT EXECUTABLE'
 checksum=hashlib.sha256(blob).hexdigest()
+with patch.dict(os.environ,{'VHS_STUDIO_BOOTSTRAP':'1','VHS_STUDIO_EXE':str(Path('launcher.exe').resolve())}),patch.object(sys,'executable',str(Path('python.exe').resolve())):
+    assert updates.running_executable().name=='launcher.exe'
+    with patch.dict(os.environ,{'VHS_STUDIO_EXE':str(Path('python.exe').resolve())}):
+        try:
+            updates.running_executable()
+            raise AssertionError('Bootstrap attempted to update Python')
+        except ValueError:
+            pass
 release=dict(draft=False,prerelease=False,tag_name='2026-11-26',assets=[dict(
     name='VHS-Studio-2026-11-26.exe',size=len(blob),digest='sha256:'+checksum,
     browser_download_url='https://github.com/xxjonesriderxx/VHS-Studio/releases/download/2026-11-26/VHS-Studio-2026-11-26.exe')])

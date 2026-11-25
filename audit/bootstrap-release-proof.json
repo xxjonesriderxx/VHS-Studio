@@ -1,0 +1,53 @@
+{
+  "version": "2026-11-25",
+  "distribution": "Own-code bootstrap only; original third-party files downloaded by the user directly from upstream.",
+  "resources": [
+    "payload.zip",
+    "bootstrap-lock.json"
+  ],
+  "framework_references": [
+    "mscorlib",
+    "System.Windows.Forms",
+    "System",
+    "System.Web.Extensions",
+    "System.IO.Compression",
+    "System.Drawing"
+  ],
+  "payload_sources": {
+    "app.py": "08d0498b1d5426223f94efae5730fb453d0d1158839d8dc085add33cd8d9bb69",
+    "app_updates.py": "7704f11fcec92ef96ff0154d0db108e2cbcc4c1a4c32c8be0ca8bf2202fd9613",
+    "app_version.py": "aa52e31a19d0aee97234367e43fd0e6e8aadd98aec21dcd13253496fa5dcc4d9",
+    "archive_layout.py": "22c180dd400f47467094b67ef10d6d84c03b45978eef8c8b972d679dc4a61e80",
+    "automation.py": "d7ee2e4bc1e5b7cabd32bbd189d3c0d0e00c54a07acbd4ca086e1e05d44cc3d7",
+    "bootstrap_setup.py": "98febfe38046d49acdc6dfe620ac40eeaf1ac14dfb67ede44768571dcfaab80c",
+    "engine.py": "507ce924165e68d87a39a8a4c09a9e7b6948df752f500bd73143abbe0a9132e3",
+    "i18n.py": "2af569d2b20438a5e93e534678922c337aa66d94900a4b0491b26f1cd046f4fe",
+    "inference_backend.py": "73f6e042273b428332f21572aa9b9b67f0962b00fd546e52421586f89812ac3b",
+    "mcp_server.py": "544912d45019670feef298d5232dbc3c3e86dc8d722ddbd6928ea5f110fa3d71",
+    "notifications.py": "1efcd1dfe47a03bb90121c949c95627a2b9fd0f8fae4d1618ea5e6f5a59d3148",
+    "preferences.py": "19d7307229bf5770448fe76d90b14a737ce750d2a1084a624227b3aefebd871a",
+    "qtgmc_limit.py": "20f19930722af8e036cf5b37fe14f979a00bb5be4d5b5d6a7e29a7281b80574a",
+    "review.py": "8f3f04fa2448bc77633a73ca5338b4b4f82214acf4d1d0fea3e0ee78cf8e0288",
+    "review_store.py": "2478207a035525d5f997db459e9577b135f9cb559eb2fd57cb9d5d23912c24a4",
+    "runtime_components.py": "c5e1b4a6b9e05f78af3f5666c4173cd04e19219f4c11a90b41cfff3a33a8b47a",
+    "ui_icons.py": "1ddf785845615a358b31a26cb4a1e7beb656ed7c7c91dfb01c36619e1e061f85",
+    "bootstrap-lock.json": "369b7e79388112863856a0fd231ac298f9180508f0209a8fbd4d693b6c6a47c8",
+    "bootstrap-requirements.txt": "7a394d2bd099e5c822cec40526c4992df8b0aada54ea8848714642374d2af5a0",
+    "runtime-manifest.json": "490417e854964e43f0366062f7169fddd9e59ccba56dde5e43d8d49db78d3a98",
+    "LICENSE": "1ae2f67a32912836edfa49717ac163bdd977984020f72ea9fb0d8b5e7afbf5eb",
+    "README.md": "e85efd0331ca01b315376d2528069e1861087bf0ea3a773c7ec7ac0a4e388997",
+    "AI-CONTROL.md": "76abcfe1c4b83a69c18c42736910562b851a90e9f50389a057d069e06dc22e3e",
+    "THIRD-PARTY-NOTICES.md": "ccf14291311c787ff969ab0bff6a29d7da6a1a08e5968fccb9b4262e9b9cf8c1"
+  },
+  "sha256": {
+    "VHS-Studio-2026-11-25.exe": "07d1278a46e41fb70828a25f1bc550b2313f9ec792334eadd94c3513191d1940",
+    "VHS-Studio-2026-11-25-portable.zip": "6afc5bb20b4b8b00eebc6533cfe966061b6bbba9ebb65f0c9d6af0b29abbae40"
+  },
+  "tests": [
+    "Two isolated upstream runtime/wheel installations",
+    "MCP initialize/tools-list (9 tools) and clean EOF",
+    "Synthetic 2-second QTGMC + OpenProteus + OCR run; 2 MP4 outputs and OCR export",
+    "Updater integrity/rollback and refusing Python as update target"
+  ],
+  "previous_prefilled_artifacts": "Not published; clearance does not apply to dist/ or hybrid-dist/."
+}

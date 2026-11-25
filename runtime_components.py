@@ -7,13 +7,14 @@ import shutil
 import ssl
 import sys
 import tempfile
+import tarfile
 from urllib.parse import urlparse
 from urllib.request import Request, build_opener, HTTPSHandler, HTTPRedirectHandler
 import zipfile
 import uuid
 
 ROOT=Path(getattr(sys,'_MEIPASS',Path(__file__).parent))
-EXE_DIR=Path(sys.executable).parent if getattr(sys,'frozen',False) else ROOT
+EXE_DIR=Path(os.environ['VHS_STUDIO_EXE']).resolve().parent if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1' and os.environ.get('VHS_STUDIO_EXE') else (Path(sys.executable).parent if getattr(sys,'frozen',False) else ROOT)
 _ready={}
 _dll_handles=[]
 
@@ -83,6 +84,25 @@ def unpack_verified(archive, target, pack):
     """Extract only declared files, with bounded sizes and no path traversal."""
     if digest(archive)!=pack['sha256']:
         raise ValueError('Component archive checksum mismatch')
+    if pack.get('format')=='tar.gz':
+        members=pack['members']
+        with tarfile.open(archive,'r:gz') as source:
+            entries=source.getmembers()
+            names=[entry.name for entry in entries]
+            if len(names)!=len(set(names)) or not set(members).issubset(names):
+                raise ValueError('Missing or duplicate TAR component entries')
+            for name,destination in members.items():
+                entry=source.getmember(name)
+                spec=pack['files'][destination]
+                if not entry.isfile() or entry.size!=spec['size']:
+                    raise ValueError('Invalid TAR component entry')
+                dest=Path(target)/safe_relative(destination)
+                dest.parent.mkdir(parents=True,exist_ok=True)
+                with source.extractfile(entry) as stream,dest.open('xb') as sink:
+                    shutil.copyfileobj(stream,sink,1024*1024)
+                if digest(dest)!=spec['sha256']:
+                    raise ValueError('Extracted component checksum mismatch')
+        return
     with zipfile.ZipFile(archive) as z:
         entries=z.infolist()
         names=[i.filename for i in entries]

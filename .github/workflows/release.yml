@@ -1,9 +1,6 @@
 name: Build Windows release
 
 on:
-  push:
-    tags:
-      - '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*'
   workflow_dispatch:
     inputs:
       release_date:
@@ -31,19 +28,24 @@ jobs:
           RELEASE_DATE: ${{ inputs.release_date || github.ref_name }}
         run: |
           python -c "import os; from pathlib import Path; from app_updates import version_key; v=os.environ['RELEASE_DATE']; version_key(v); Path('app_version.py').write_text('VERSION='+repr(v)+'\nREPOSITORY='+repr('xxjonesriderxx/VHS-Studio')+'\n',encoding='utf8')"
-      - name: Install build dependencies
-        run: python -m pip install -r requirements-build.txt
-      - name: Build standalone EXE and offline ZIP
-        run: python build_release.py
+      - name: Check release approval
+        run: python release_clearance.py --status-only
+      - name: Build source-only launcher
+        run: python build_bootstrap.py
       - name: Verify date-version updater
         run: python test_updates.py
-      - name: Publish exactly two application assets
+      - name: Prepare reviewed download-based assets
+        run: python package_bootstrap.py
+      - name: Upload draft for final artifact review
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_DATE: ${{ inputs.release_date || github.ref_name }}
         shell: pwsh
         run: |
-          $notes = 'Windows x64 preview: standalone EXE with verified upstream downloads, and complete offline portable ZIP. AI-assisted / vibe-coded; inspect results. OpenProteus has its own noncommercial model license. See README and included notices.'
+          $notes = 'Windows x64 preview. Both downloads obtain runtime and components directly from original upstream providers. Internet is required on first use. No prefilled offline bundle. OpenProteus has a separate noncommercial model license.'
           gh release view $env:RELEASE_DATE *> $null
-          if ($LASTEXITCODE -ne 0) { gh release create $env:RELEASE_DATE --title "VHS Studio $env:RELEASE_DATE" --notes $notes --target $env:GITHUB_SHA }
-          gh release upload $env:RELEASE_DATE "dist/VHS-Studio-$env:RELEASE_DATE.exe" "dist/VHS-Studio-$env:RELEASE_DATE-portable.zip" --clobber
+          if ($LASTEXITCODE -eq 0) {
+            $draft = gh release view $env:RELEASE_DATE --json isDraft --jq '.isDraft'
+            if ($draft -ne 'true') { throw 'Existing public releases must not be overwritten by a draft build.' }
+          } else { gh release create $env:RELEASE_DATE --draft --title "VHS Studio v$env:RELEASE_DATE" --notes $notes --target $env:GITHUB_SHA }
+          gh release upload $env:RELEASE_DATE "bootstrap-dist/VHS-Studio-$env:RELEASE_DATE.exe" "bootstrap-dist/VHS-Studio-$env:RELEASE_DATE-portable.zip" --clobber

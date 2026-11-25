@@ -132,7 +132,7 @@ Die Datumsfunde enthalten OCR-Rohdaten und separate KI-Bewertungen. Per Doppelkl
 
 Neue Archive verwenden _OriginalCuts, _Deinterlaced, _CutCorrections und _Administration. Bereits vorhandene deutsche Ordner wie _Originalschnitte und _Verwaltung werden weiterverwendet. Fehlende Strukturen können im Archivmodus angelegt werden. Export erhält die Quelldateien; Archivmodus verschiebt frühere Fassungen nach geprüfter Ausgabe.
 
-Die portable ZIP enthält alle Komponenten. Die einzelne EXE enthält Python und die Oberfläche; fehlende große Werkzeuge lädt sie aus festgelegten Originalquellen in den Benutzerordner. Administratorrechte sind nicht nötig. Windows 10/11 x64 und passende Hardware werden benötigt. Updates werden beim GUI-Start geprüft und erst ohne laufende Aufgaben eingespielt.
+Der Starter lädt Python, Oberfläche und benötigte Pakete aus festgelegten Originalquellen in deinen Benutzerordner. FFmpeg, QTGMC und das optionale Modell werden bei Bedarf direkt vom jeweiligen Anbieter bezogen. Beim ersten Start wird Internet benötigt; danach bleiben die geladenen Komponenten lokal verfügbar. Administratorrechte sind nicht nötig. Windows 10/11 x64 und passende Hardware werden benötigt. Updates werden beim GUI-Start geprüft und erst ohne laufende Aufgaben eingespielt.
 
 Letzte Einstellungen werden gespeichert. Autostart ist optional und verwendet eine separate, ausdrücklich aktivierte Profilkopie."""
 
@@ -148,7 +148,7 @@ The Date findings tab lets you copy either the data or an AI review prompt. The 
 
 New archives use _OriginalCuts, _Deinterlaced, _CutCorrections and _Administration. Existing German folders such as _Originalschnitte and _Verwaltung are reused. Missing archive folders can be created from the interface. Export preserves sources; archive mode moves prior versions after verified publication.
 
-The offline ZIP includes the tools. The standalone EXE bundles Python, the interface and the small OpenProteus model; missing large tools are downloaded from pinned upstream sources into the user folder. No administrator access is required. OpenProteus has its own noncommercial model license. Windows 10/11 x64 and suitable hardware are required. Resource modes explain CPU limits and GPU pacing.
+The launcher obtains Python and required packages directly from their pinned original providers into your user folder. FFmpeg, QTGMC and the optional model are downloaded when needed. First use requires Internet; downloaded components remain available locally afterwards. No administrator access is required. OpenProteus has its own noncommercial model license. Windows 10/11 x64 and suitable hardware are required. Resource modes explain CPU limits and GPU pacing.
 
 The GUI checks stable GitHub releases at startup and applies verified updates only when tasks have finished. Settings are remembered locally. Optional login startup uses a separately enabled profile."""
 
@@ -172,8 +172,8 @@ TOOLTIPS = {
 "Sucht alte BWDIF-MP4s mit zugehörigem Original unter _Originalschnitte. Die neue QTGMC-Fassung wird aus dem Original erzeugt. Archivmodus sichert BWDIF unter _Deinterlaced/_BWDIF.",
 "Finds old BWDIF MP4s with an original in _Originalschnitte. QTGMC is rendered from that original. Archive mode backs up BWDIF in _Deinterlaced/_BWDIF."),
 "upscale": (
-"OpenProteus 2× vergrößert Breite und Höhe. Das Modell ist enthalten. Die Verarbeitung benötigt eine Vulkan-Grafikkarte und kann sehr lange dauern.",
-"OpenProteus 2× doubles width and height. The model is included. Processing needs a Vulkan GPU and can take a long time."),
+"OpenProteus 2× vergrößert Breite und Höhe. Das optionale Modell wird bei der ersten Verwendung vom Originalanbieter geladen. Es steht unter CC BY-NC 4.0 (nichtkommerziell). Die Verarbeitung benötigt eine Vulkan-Grafikkarte und kann sehr lange dauern.",
+"OpenProteus 2× doubles width and height. The optional model downloads from its original provider on first use. It uses CC BY-NC 4.0 (noncommercial). Processing needs a Vulkan GPU and can take a long time."),
 "ocr": (
 "Eine VHS-Kassette kann Aufnahmen vieler Tage oder Jahre enthalten. OCR liest eingeblendete Kameradaten und sammelt Fundstellen für eine spätere Trennung nach Aufnahmetagen. VHS Studio schneidet nichts automatisch. Ergebnisse und KI-Prüfauftrag: Reiter »Datumsfunde«. Fehlende oder falsche Stempel bleiben unsicher. Bei erster Nutzung ausgeschaltet; die letzte Auswahl wird gespeichert.",
 "A VHS tape can contain recordings from many days or years. OCR reads visible camera dates and collects findings to help split footage by recording day later. VHS Studio does not cut videos automatically. Results and AI review prompt: Date findings tab. Missing or incorrect stamps remain uncertain. Off on first use; your last selection is remembered."),
@@ -203,6 +203,6 @@ EN.update({"Mehrere Aufnahmetage auf einer Kassette?\nHinweise für eine später
 EN.update({'OCR-Datum':'OCR date','Geprüftes Datum':'Reviewed date','Grenze (s)':'Boundary (s)','Prüfstatus':'Review status','Prüfer / Modell':'Reviewer / model','Bestätigt':'Verified','Korrigiert':'Corrected','Unklar':'Uncertain','Fehlfund':'Rejected','Ungeprüft':'Unreviewed','Prüfdetails':'Review details','Prüfverlauf':'Review history','Doppelklick: Prüfdetails · Prüferangaben sind Selbstauskünfte.':'Double-click: review details · attribution is self-reported.'})
 EN.update({'Unsicherheit (s)':'Uncertainty (s)','Begründung':'Evidence and reasoning','Geprüft am':'Reviewed at','Quelle verändert / fehlt':'Source changed / missing'})
 EN.update({'Update wird geladen …':'Downloading update …','Update bereit · wartet auf laufende Aufgaben':'Update ready · waiting for active tasks','Update konnte nicht installiert werden: ':'Could not install update: ','Updateprüfung nicht verfügbar: ':'Update check unavailable: ','Komponenten laden':'Downloading components'})
-EN.update({'Modell inklusive · nichtkommerziell':'Model included · noncommercial'})
+EN.update({'Modell nachladen · nichtkommerziell':'Model download · noncommercial'})
 EN.update({'Windows-Benachrichtigungen':'Windows notifications'})
 EN.update({'Familienarchiv einrichten':'Set up family archive','Archiveinrichtung abgebrochen.':'Archive setup cancelled.', 'Archivstruktur anlegen?\n\nNeue Archive verwenden _OriginalCuts, _Deinterlaced, _CutCorrections und _Administration. Vorhandene deutsche Ordner werden weiterverwendet. Jetzt werden nur Ordner angelegt; Videos werden erst nach »Restaurierung starten« bearbeitet und archiviert.':'Create the archive folders?\n\nNew archives use _OriginalCuts, _Deinterlaced, _CutCorrections and _Administration. Existing German folders are reused. Only folders will be created now; recordings are processed and archived only after you select Start restoration.'})

@@ -184,12 +184,13 @@ def qtgmc(source, target, info):
                 raise
 
 def upscale(source, target, info):
-    from upscale_ncnn_py import upscale_ncnn_vulkan_wrapper as wrapped
+    from inference_backend import load
+    wrapped=load()
     video = info["video"]
     sar = Fraction(video.get("sample_aspect_ratio", "1:1").replace(":", "/"))
     width, height = round(video["width"] * sar / 2) * 2, video["height"]
     fps = Fraction(video["avg_frame_rate"])
-    model = ROOT / "model/2x_OpenProteus_Compact_i2_70K"
+    model = runtime.asset('openproteus','model/2x_OpenProteus_Compact_i2_70K')
     net = wrapped.UPSCALEWrapped(0, False, 2)
     net.set_parameters(128, 2)
     net.load(str(model)+".param", str(model)+".bin")

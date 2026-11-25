@@ -56,7 +56,9 @@ def configure_startup(config=None, enabled=True, link_path=None):
     shell=win32com.client.Dispatch('WScript.Shell')
     shortcut=shell.CreateShortcut(str(link))
     args=[]
-    if not getattr(sys,'frozen',False):
+    if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1':
+        shortcut.TargetPath=os.environ['VHS_STUDIO_EXE']
+    elif not getattr(sys,'frozen',False):
         shortcut.TargetPath=str(Path(sys.executable).with_name('pythonw.exe'))
         args.append(str(Path(__file__).with_name('app.py')))
     else:

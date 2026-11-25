@@ -14,6 +14,15 @@ from runtime_components import CheckedRedirect,allowed_url,digest
 
 HOSTS={'api.github.com','github.com','release-assets.githubusercontent.com','objects.githubusercontent.com'}
 
+
+def running_executable():
+    if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1':
+        value=os.environ.get('VHS_STUDIO_EXE')
+        if not value or Path(value).suffix.lower()!='.exe' or Path(value).name.lower() in ('python.exe','pythonw.exe'):
+            raise ValueError('Missing bootstrap application executable; refusing to update Python.')
+        return Path(value).resolve()
+    return Path(sys.executable).resolve()
+
 def version_key(value):
     import re
     from datetime import date
@@ -78,7 +87,7 @@ def stage(info, progress=None):
         tmp.unlink(missing_ok=True)
 
 def launch_helper(staged,info,restart_args=None):
-    target=Path(sys.executable).resolve()
+    target=running_executable()
     import tempfile
     with tempfile.TemporaryFile(dir=target.parent):
         pass
@@ -92,7 +101,9 @@ def apply(request_path):
     """Runs in the downloaded EXE while the old app exits. Never terminates jobs."""
     request=Path(request_path).resolve()
     data=json.loads(request.read_text('utf8'))
-    source=Path(sys.executable).resolve();target=Path(data['target']).resolve()
+    source=running_executable();target=Path(data['target']).resolve()
+    if target.name.lower() in ('python.exe','pythonw.exe'):
+        raise ValueError('Refusing to replace a Python interpreter as an application update.')
     if target.suffix.lower()!='.exe' or source==target or digest(source)!=data['new_sha256']:
         raise ValueError('Invalid application update request')
     if not target.exists() or digest(target)!=data['old_sha256']:
@@ -132,7 +143,7 @@ def apply(request_path):
 def other_instances():
     import psutil
     own={os.getpid(),os.getppid()}
-    target=Path(sys.executable).resolve()
+    target=running_executable()
     for proc in psutil.process_iter(['pid','exe']):
         try:
             if proc.info['pid'] not in own and proc.info['exe'] and Path(proc.info['exe']).resolve()==target:

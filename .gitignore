@@ -37,5 +37,7 @@ feedback-*.json
 *.onnx
 *.ico
 .checks/
+bootstrap-build/
+bootstrap-dist/
 test-*.json
 test-*.jsonl

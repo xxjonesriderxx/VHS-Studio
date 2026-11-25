@@ -73,8 +73,8 @@ def register_instance():
     import psutil
     folder = Path(os.environ.get('LOCALAPPDATA', Path.home()))/'VHS Studio'/'instances'
     folder.mkdir(parents=True, exist_ok=True)
-    command = [sys.executable]
-    if not getattr(sys, 'frozen', False):
+    command = [os.environ.get('VHS_STUDIO_EXE',sys.executable)] if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1' else [sys.executable]
+    if not getattr(sys, 'frozen', False) and os.environ.get('VHS_STUDIO_BOOTSTRAP')!='1':
         command.append(str(Path(__file__).with_name('app.py')))
     record = folder/f'{os.getpid()}.json'
     record.write_text(json.dumps(dict(pid=os.getpid(), process_time=psutil.Process().create_time(),

@@ -1,0 +1,19 @@
+# Original upstream wheels installed locally by the user's bootstrap runtime.
+customtkinter==6.0.0
+pillow==12.3.0
+mcp==1.30.0
+pywin32==312
+vsjetpack==2.2.7
+VapourSynth==82
+scipy==1.18.1
+numpy==2.5.4
+psutil==7.2.2
+dfttest2==11.1.1
+upscale-ncnn-py==1.2.0
+winrt-runtime==4.1.0
+winrt-Windows.Foundation==4!10.0.28000.2957
+winrt-Windows.Foundation.Collections==4!10.0.28000.2957
+winrt-Windows.Globalization==4!10.0.28000.2957
+winrt-Windows.Graphics.Imaging==4!10.0.28000.2957
+winrt-Windows.Media.Ocr==4!10.0.28000.2957
+winrt-Windows.Storage.Streams==4!10.0.28000.2957

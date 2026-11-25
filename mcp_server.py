@@ -105,7 +105,7 @@ def serve(request=None):
         """Return all restoration options, defaults, hardware limits and output formats."""
         import runtime_components
         return dict(version=VERSION,components=runtime_components.status(),options_schema=Options.model_json_schema(),cpu=dict(physical=psutil.cpu_count(logical=False),logical=psutil.cpu_count()),
-                    export_formats=["SQLite","JSON","CSV"],mcp_transport="stdio",notes=["QTGMC and FFmpeg are bundled.","OpenProteus 2x requires a Vulkan-capable GPU.","CPU limits do not cap GPU load."])
+                    export_formats=["SQLite","JSON","CSV"],mcp_transport="stdio",notes=["Missing components are obtained directly from their original upstream providers.","OpenProteus 2x requires a Vulkan-capable GPU and has a noncommercial model license.","CPU limits do not cap GPU load."])
 
     @mcp.tool()
     def scan_folder(source: str,output: str,options: dict | None=None) -> dict:

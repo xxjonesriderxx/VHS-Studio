@@ -659,6 +659,43 @@
       ],
       "size": 112119048,
       "sha256": "41c772c9e1fbbebb6d3b534e8a98c6f1cc600eea48f5d7d4f0f28cd747960e09"
+    },
+    "openproteus": {
+      "archives": [
+        {
+          "url": "https://github.com/TNTwise/real-video-enhancer-models/releases/download/models/2x_OpenProteus_Compact_i2_70K.tar.gz",
+          "format": "tar.gz",
+          "size": 1123490,
+          "sha256": "0d96689273650613726ebae4482cdc56943f46e819f99109054d0ca325d6a7c7",
+          "members": {
+            "2x_OpenProteus_Compact_i2_70K/2x_OpenProteus_Compact_i2_70K.bin": "model/2x_OpenProteus_Compact_i2_70K.bin",
+            "2x_OpenProteus_Compact_i2_70K/2x_OpenProteus_Compact_i2_70K.param": "model/2x_OpenProteus_Compact_i2_70K.param"
+          },
+          "files": {
+            "model/2x_OpenProteus_Compact_i2_70K.bin": {
+              "size": 1205752,
+              "sha256": "fd1ba2a0061fe6ab37182bb88a88f9c6a99da2a4f31119fccf8b38725c4b8309"
+            },
+            "model/2x_OpenProteus_Compact_i2_70K.param": {
+              "size": 3495,
+              "sha256": "7c5aec3347d1614048e3f3afa853ffb4d2a84304e5f18c27cf900ae467f05934"
+            }
+          },
+          "origin": "OpenProteus Compact by SiroSky, CC BY-NC 4.0; NCNN conversion provided by TNTwise"
+        }
+      ],
+      "files": {
+        "model/2x_OpenProteus_Compact_i2_70K.bin": {
+          "size": 1205752,
+          "sha256": "fd1ba2a0061fe6ab37182bb88a88f9c6a99da2a4f31119fccf8b38725c4b8309"
+        },
+        "model/2x_OpenProteus_Compact_i2_70K.param": {
+          "size": 3495,
+          "sha256": "7c5aec3347d1614048e3f3afa853ffb4d2a84304e5f18c27cf900ae467f05934"
+        }
+      },
+      "size": 1123490,
+      "sha256": "232689f6d0ee986f90630bd13d9df18271165a30b5c8a09109451ffe3dbf985d"
     }
   }
 }

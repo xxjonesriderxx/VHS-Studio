@@ -16,10 +16,11 @@ def register():
     programs=Path(win32com.client.Dispatch('WScript.Shell').SpecialFolders('Programs'))
     path=programs/'VHS Studio.lnk'
     shortcut=pythoncom.CoCreateInstance(shell.CLSID_ShellLink,None,pythoncom.CLSCTX_INPROC_SERVER,shell.IID_IShellLink)
-    shortcut.SetPath(sys.executable)
-    args=[] if getattr(sys,'frozen',False) else [str(Path(__file__).with_name('app.py'))]
+    target=os.environ.get('VHS_STUDIO_EXE',sys.executable) if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1' else sys.executable
+    shortcut.SetPath(target)
+    args=[] if getattr(sys,'frozen',False) or os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1' else [str(Path(__file__).with_name('app.py'))]
     shortcut.SetArguments(subprocess.list2cmdline(args))
-    shortcut.SetWorkingDirectory(str(Path(sys.executable).parent))
+    shortcut.SetWorkingDirectory(str(Path(target).parent))
     shortcut.SetDescription('VHS Studio restoration notifications')
     store=shortcut.QueryInterface(propsys.IID_IPropertyStore)
     store.SetValue(pscon.PKEY_AppUserModel_ID,propsys.PROPVARIANTType(APP_ID,pythoncom.VT_LPWSTR))

@@ -238,7 +238,7 @@ class Studio(ctk.CTk):
         self.upscale = ctk.CTkSwitch(cards[1], text=self.t('Details vergrößern'), font=('Inter', 15, 'bold'), progress_color=ACCENT, command=self.invalidate)
         self.upscale.grid(row=0, column=0, padx=17, pady=(18, 8), sticky='w')
         self.label(cards[1], self.t('OpenProteus · zweifache Bildgröße'), 12, MUTED).grid(row=1, column=0, sticky='w', padx=17)
-        self.label(cards[1], self.t('Modell inklusive · nichtkommerziell'), 13).grid(row=2, column=0, padx=17, pady=14, sticky='w')
+        self.label(cards[1], self.t('Modell nachladen · nichtkommerziell'), 13).grid(row=2, column=0, padx=17, pady=14, sticky='w')
         self.label(cards[1], self.t('Benötigt eine Vulkan-fähige Grafikkarte.\nVHS wird vorab deinterlaced.'), 12, MUTED, justify='left').grid(row=3, column=0, padx=17, pady=(0, 15), sticky='w')
         self.ocr = ctk.CTkSwitch(cards[2], text=self.t('Datumsstempel lesen'), font=('Inter', 15, 'bold'), progress_color=ACCENT, command=self.invalidate)
         self.ocr.grid(row=0, column=0, padx=17, pady=(18, 8), sticky='w')
@@ -841,7 +841,7 @@ class Studio(ctk.CTk):
         self.after(2000,self.autosave)
 
     def start_update_check(self):
-        if not getattr(sys,'frozen',False) or '--skip-update' in sys.argv:
+        if not (getattr(sys,'frozen',False) or os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1') or '--skip-update' in sys.argv:
             return
         import threading
         def check():
@@ -952,9 +952,9 @@ class Studio(ctk.CTk):
         dialog.title('VHS Studio · MCP')
         dialog.geometry('780x540')
         dialog.transient(self)
-        exe = Path(sys.executable).resolve()
+        exe = Path(os.environ.get('VHS_STUDIO_EXE',sys.executable)).resolve() if os.environ.get('VHS_STUDIO_BOOTSTRAP')=='1' else Path(sys.executable).resolve()
         command = [str(exe)]
-        if not getattr(sys, 'frozen', False):
+        if not getattr(sys, 'frozen', False) and os.environ.get('VHS_STUDIO_BOOTSTRAP')!='1':
             command.append(str(Path(__file__).resolve()))
         config = {'mcpServers': {'vhs-studio': {'command': str(exe), 'args': command[1:] + ['--mcp']}}}
         info = 'Diese EXE mit --mcp als lokalen stdio-MCP-Server eintragen. Optionen abfragen, Quellen prüfen, Läufe starten und Status/Logs live lesen.' if self.language == 'de' else 'Register this EXE with --mcp as a local stdio MCP server. Inspect options, scan folders, start runs and read live status/logs.'
