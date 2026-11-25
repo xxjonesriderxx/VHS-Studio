@@ -1,0 +1,664 @@
+{
+  "version": "0.3.0",
+  "allowed_hosts": [
+    "www.gyan.dev",
+    "gyan.dev",
+    "github.com",
+    "release-assets.githubusercontent.com",
+    "objects.githubusercontent.com",
+    "files.pythonhosted.org"
+  ],
+  "packs": {
+    "media": {
+      "files": {
+        "bin/ffmpeg.exe": {
+          "size": 110590976,
+          "sha256": "ed8f66cb877087a96f5bbb40a2944f0e764f2ad8870d5cb647360d912e62bc07"
+        },
+        "bin/ffprobe.exe": {
+          "size": 110374912,
+          "sha256": "df0199f606faa88e9ad192732a7c3987acfb647663534c297772e17730611a08"
+        },
+        "licenses/ffmpeg/LICENSE": {
+          "size": 35147,
+          "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+        },
+        "licenses/ffmpeg/README.txt": {
+          "size": 43002,
+          "sha256": "693a04eb542211fceb84169b073578311c0fed751d716ff90806e0818c71e780"
+        }
+      },
+      "archives": [
+        {
+          "url": "https://github.com/GyanD/codexffmpeg/releases/download/9.1/ffmpeg-9.1-essentials_build.zip",
+          "size": 119467219,
+          "sha256": "b9bbbb3acece000cbeec994f856649354e52c773807841e78908374b24d658fd",
+          "members": {
+            "ffmpeg-9.1-essentials_build/bin/ffmpeg.exe": "bin/ffmpeg.exe",
+            "ffmpeg-9.1-essentials_build/bin/ffprobe.exe": "bin/ffprobe.exe",
+            "ffmpeg-9.1-essentials_build/LICENSE": "licenses/ffmpeg/LICENSE",
+            "ffmpeg-9.1-essentials_build/README.txt": "licenses/ffmpeg/README.txt"
+          },
+          "files": {
+            "bin/ffmpeg.exe": {
+              "size": 110590976,
+              "sha256": "ed8f66cb877087a96f5bbb40a2944f0e764f2ad8870d5cb647360d912e62bc07"
+            },
+            "bin/ffprobe.exe": {
+              "size": 110374912,
+              "sha256": "df0199f606faa88e9ad192732a7c3987acfb647663534c297772e17730611a08"
+            },
+            "licenses/ffmpeg/LICENSE": {
+              "size": 35147,
+              "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+            },
+            "licenses/ffmpeg/README.txt": {
+              "size": 43002,
+              "sha256": "693a04eb542211fceb84169b073578311c0fed751d716ff90806e0818c71e780"
+            }
+          },
+          "origin": "https://ffmpeg.org/download.html"
+        }
+      ],
+      "size": 119467219,
+      "sha256": "99b1237b52fd958ca9976331f53e52dcb7a614a50443575189496b5a01d92bcd"
+    },
+    "qtgmc": {
+      "files": {
+        "licenses/vapoursynth-82.dist-info/METADATA": {
+          "size": 2070,
+          "sha256": "4bd0920bc4f90b58f3589ae8711391fe90a4ba412e06d8078eab23ac0dde2f03"
+        },
+        "licenses/vapoursynth-82.dist-info/licenses/COPYING.LESSER": {
+          "size": 27028,
+          "sha256": "92a759ec0febde4750821736bbde642a3b835c0604fc81bee62f9e428f86981f"
+        },
+        "vapoursynth/libvapoursynth.dll": {
+          "size": 4172288,
+          "sha256": "7085e291aa73fb60515b22fe87d0b76fa5b076cd069f2e49aebadf8b93bacb63"
+        },
+        "vapoursynth/vapoursynth.pyd": {
+          "size": 736768,
+          "sha256": "103b77c58ae70c66f398e32f5b600329dae030e6808adaab8cffbd237a8aa656"
+        },
+        "vapoursynth/vsscript.dll": {
+          "size": 81408,
+          "sha256": "97c095603191daf0b3d4faf0f393fc2b267f0d1d8f3e09cb764f5162104dc775"
+        },
+        "vapoursynth/vsvfw.dll": {
+          "size": 193536,
+          "sha256": "3b84eb00458362796d3ba375099d6d3fbd82c58e20e1bf181788dee9adec62c3"
+        },
+        "vapoursynth/plugins/avscompat.dll": {
+          "size": 253952,
+          "sha256": "ddcac7b1185b83acbeaf3262a1f59554f877b42233b59d45c13398e3da6bfff8"
+        },
+        "vapoursynth/libvapoursynthfilters.dll": {
+          "size": 2991616,
+          "sha256": "009f9a4bfa9bb81bae1e6f9a6033731e9296dce71d1ead172a90f9635fb3713f"
+        },
+        "vapoursynth/__init__.py": {
+          "size": 1677,
+          "sha256": "ca517623ccd5c82ff4d1c4c4d9b00ee0e9ecf176fec0448911cf0e847d2055c1"
+        },
+        "vapoursynth/__main__.py": {
+          "size": 84,
+          "sha256": "a2f9fcbfa43be79e692ffc019ed1fc1a24903df82e83cf67827e876f7c95fe97"
+        },
+        "vapoursynth/_cli.py": {
+          "size": 4196,
+          "sha256": "9b05f5fa5a398a6ba663ea6ef16e352db6b7eb16df130ebd79c613e1081f4bc7"
+        },
+        "vapoursynth/_shell.py": {
+          "size": 8349,
+          "sha256": "36dee2a930cc54e6b90a8f9eb04f24ceddc133f6f6747604f34b869543b0af6e"
+        },
+        "vapoursynth/_utils.py": {
+          "size": 16952,
+          "sha256": "a692aab1feb976b3d1e93a55d80d051b29f1afcc0bfad33a4019b136d3a63eab"
+        },
+        "vapoursynth/plugins/libbestsource.dll": {
+          "size": 37168640,
+          "sha256": "01e591f0e9b7f1f433ed90ffb09faf6baa23fc18dd35be175be28418401dd873"
+        },
+        "licenses/vapoursynth_bestsource-23.dist-info/licenses/LICENSE": {
+          "size": 1098,
+          "sha256": "296439672f8dbe4ad9be291a95d4893a86b82db5aed20631303c920b562250df"
+        },
+        "licenses/vapoursynth_bestsource-23.dist-info/METADATA": {
+          "size": 18145,
+          "sha256": "52f079861e598b4717da7b2b8e68511ca9152ab554998743075720b4dd689ac6"
+        },
+        "vapoursynth/plugins/fmtconv.dll": {
+          "size": 3523584,
+          "sha256": "6e6e173553548607582c5eb3549718eec8f82141376f2377ff7ce643e419e07a"
+        },
+        "licenses/vapoursynth_fmtconv-31.dist-info/METADATA": {
+          "size": 1687,
+          "sha256": "c7fa502fedfec15f409f89f0226d3493a39a7b181333487ccc90746a439350e0"
+        },
+        "licenses/vapoursynth_fmtconv-31.dist-info/licenses/COPYING": {
+          "size": 498,
+          "sha256": "0356258391e190dc1d44ea01565cfe627fe44e27dad693a0a54c2483a7b223e5"
+        },
+        "licenses/vapoursynth_znedi3-3.3.dist-info/METADATA": {
+          "size": 7858,
+          "sha256": "7d6fd73eb25238f0208bb7b14de65ebbcf26a67dae354fcb6df3189bef0be2d5"
+        },
+        "licenses/vapoursynth_znedi3-3.3.dist-info/licenses/gpl2.txt": {
+          "size": 18009,
+          "sha256": "204d8eff92f95aac4df6c8122bc1505f468f3a901e5a4cc08940e0ede1938994"
+        },
+        "vapoursynth/plugins/znedi3.dll": {
+          "size": 1506816,
+          "sha256": "b1f89f4ce5f6e646ded00e55eafad711b77bda99617c46019eeb544caabcaa84"
+        },
+        "vapoursynth/plugins/nnedi3_weights.bin": {
+          "size": 13574928,
+          "sha256": "27f382430435bb7613deb1c52f3c79c300c9869812cfe29079432a9c82251d42"
+        },
+        "vapoursynth/plugins/dfttest2_cpu.dll": {
+          "size": 644096,
+          "sha256": "c574c2486d68909e9fa823397bcec3f1f8c99f8d67b4bbed141c3c43d7da029e"
+        },
+        "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/METADATA": {
+          "size": 1240,
+          "sha256": "0a26da9846ebc76f1d20ccbff234dbb697b90b5c6800e10e6369d34eb99e2a0f"
+        },
+        "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/licenses/vs-dfttest2/LICENSE": {
+          "size": 35823,
+          "sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809"
+        },
+        "vapoursynth/plugins/awarp.dll": {
+          "size": 245248,
+          "sha256": "d695d546036cb14c75302c3ae477e54f2dc94cd5678e17ef1f8114cfc4786c60"
+        },
+        "licenses/vapoursynth_awarp-3.1.dist-info/licenses/LICENSE": {
+          "size": 1084,
+          "sha256": "18b75268a72d61473af9a8e284f2eaf78b067a6cefe766bf82d53aa2fd51c807"
+        },
+        "licenses/vapoursynth_awarp-3.1.dist-info/METADATA": {
+          "size": 2159,
+          "sha256": "b604da10131a31b779afdf2521c02eb91358f2a3130605dff3d677de789ac047"
+        },
+        "vapoursynth/plugins/deblock.dll": {
+          "size": 347648,
+          "sha256": "d82a504e7394bd6c954755c754c84a724361cc33f939c03d4458c5cbbdd1470a"
+        },
+        "licenses/vapoursynth_deblock-9.0.dist-info/licenses/LICENSE": {
+          "size": 18365,
+          "sha256": "2814547f68dde6e73d372e0fecc68c3590d2b6dbb2031c0fb8be861bb2b5b9c3"
+        },
+        "licenses/vapoursynth_deblock-9.0.dist-info/METADATA": {
+          "size": 2071,
+          "sha256": "861ca29c327a5dacc47816da92ac21600aae7d4370c2bdcf12b42eb9a176aa02"
+        },
+        "licenses/vapoursynth_resize2-0.5.1.dist-info/METADATA": {
+          "size": 1990,
+          "sha256": "ec6166f708e803a955239ba77f53a0affd6c33029a13bf51bb2eb396d7434734"
+        },
+        "licenses/vapoursynth_resize2-0.5.1.dist-info/licenses/LICENSE.md": {
+          "size": 26721,
+          "sha256": "ea0bb0aa7090fe601237fee6bf6d5ced743f3f5400dade8bd24291500344dbbb"
+        },
+        "vapoursynth/plugins/resize2.dll": {
+          "size": 741376,
+          "sha256": "7b87b6db73c3fbe205160507770342e8ed89fb923a24dbdafc5f4170a6928733"
+        },
+        "vapoursynth/plugins/akarin/libakarin.dll": {
+          "size": 66831872,
+          "sha256": "2d4c1bc86a6af87801b2ec1f035b4b112a4a0aed18178aea0258227fcd67152d"
+        },
+        "vapoursynth/plugins/akarin/libzstd.dll": {
+          "size": 1030144,
+          "sha256": "a4a29141c6dc489c59c260b5d4f781c195cea11ed231ee0cbfc6d3803b0708b7"
+        },
+        "licenses/vapoursynth_akarin-1.5.0.dist-info/METADATA": {
+          "size": 18029,
+          "sha256": "53c9bebbb54c62120cafd852c9162c67e3b47cae57f44123f5c0c004b7a7f1b2"
+        },
+        "licenses/vapoursynth_akarin-1.5.0.dist-info/licenses/COPYING.LESSER": {
+          "size": 7817,
+          "sha256": "7d3a95e5e06978064ed3f8e2b7c8f845e7fd8a405294727cc708f94cb83b8059"
+        },
+        "vapoursynth/plugins/mvutensils/mvutensils.dll": {
+          "size": 15624192,
+          "sha256": "e06ba4d7b3f71a074854689d59325dcd5c7c31b49499aa459b24b770e2191b53"
+        },
+        "licenses/vapoursynth_mvutensils-9.dist-info/licenses/LICENSE": {
+          "size": 18092,
+          "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+        },
+        "licenses/vapoursynth_mvutensils-9.dist-info/METADATA": {
+          "size": 41298,
+          "sha256": "24c99e844c057309a0a2bd93c14d1a73c1cc91a67d5ed35be714dae6b3a928c6"
+        },
+        "vapoursynth/plugins/zsmooth/zsmooth.dll": {
+          "size": 9228288,
+          "sha256": "a64616fddd19f03cf9dacf77a489ea4d8dd211b829b9de640f5f586028a2bcd9"
+        },
+        "licenses/vapoursynth_zsmooth-0.20.0.dist-info/METADATA": {
+          "size": 52725,
+          "sha256": "29f137eb5d7df5d24050c3e512407f66ce7362954b3024692f2e797424c44c14"
+        },
+        "licenses/vapoursynth_zsmooth-0.20.0.dist-info/licenses/LICENSE": {
+          "size": 1083,
+          "sha256": "4e8049adeaf266a580ff8738729a568465fded9a1bdf25396f234d2b8b07552f"
+        },
+        "vapoursynth/plugins/hysteresis/hysteresis.dll": {
+          "size": 137216,
+          "sha256": "d02b822ee19c61a21e13a54a8e8ba8f5bccf9d1230a1c8598a66d8c5d8382255"
+        },
+        "licenses/vapoursynth_hysteresis-1.4.0.dist-info/METADATA": {
+          "size": 2386,
+          "sha256": "36505eb83efaa5927c84e413cbad76ad78e13aaea082caacabdeba729ec343c3"
+        },
+        "licenses/vapoursynth_hysteresis-1.4.0.dist-info/licenses/LICENSE.md": {
+          "size": 1055,
+          "sha256": "b707772b40547dd55743d3c405adbbec8a83de7ece9bd65e58efc13b0c30cc3c"
+        },
+        "vapoursynth/plugins/vszip/vszip.dll": {
+          "size": 6669824,
+          "sha256": "2c150ec478f33d9f7d23ff93b043e1f51663bccccb68f5e247508a9f0fb1c181"
+        },
+        "licenses/vapoursynth_vszip-24.0.0.dist-info/METADATA": {
+          "size": 5808,
+          "sha256": "7bf06693d1bcebd706eace5d9647785ffc213b7514ddaef24f09218fc56904c6"
+        },
+        "licenses/vapoursynth_vszip-24.0.0.dist-info/licenses/LICENSE": {
+          "size": 1062,
+          "sha256": "5fca5c6441de09b9a401a435847e60e1c3efd4cea28e20850be06dd5318bec43"
+        }
+      },
+      "archives": [
+        {
+          "url": "https://files.pythonhosted.org/packages/09/d7/f67e68a7bf35dc24bdff34b30d14baee5b726790c0bed8cba449790dbc33/vapoursynth-82-cp312-abi3-win_amd64.whl",
+          "size": 23728996,
+          "sha256": "dbde9930d4e85de4eb220e05a0314edb7469b9016c5c58a279844b90da4a32b1",
+          "members": {
+            "vapoursynth-82.dist-info/METADATA": "licenses/vapoursynth-82.dist-info/METADATA",
+            "vapoursynth-82.dist-info/licenses/COPYING.LESSER": "licenses/vapoursynth-82.dist-info/licenses/COPYING.LESSER",
+            "vapoursynth/libvapoursynth.dll": "vapoursynth/libvapoursynth.dll",
+            "vapoursynth/vapoursynth.pyd": "vapoursynth/vapoursynth.pyd",
+            "vapoursynth/vsscript.dll": "vapoursynth/vsscript.dll",
+            "vapoursynth/vsvfw.dll": "vapoursynth/vsvfw.dll",
+            "vapoursynth/plugins/avscompat.dll": "vapoursynth/plugins/avscompat.dll",
+            "vapoursynth/libvapoursynthfilters.dll": "vapoursynth/libvapoursynthfilters.dll",
+            "vapoursynth/__init__.py": "vapoursynth/__init__.py",
+            "vapoursynth/__main__.py": "vapoursynth/__main__.py",
+            "vapoursynth/_cli.py": "vapoursynth/_cli.py",
+            "vapoursynth/_shell.py": "vapoursynth/_shell.py",
+            "vapoursynth/_utils.py": "vapoursynth/_utils.py"
+          },
+          "files": {
+            "licenses/vapoursynth-82.dist-info/METADATA": {
+              "size": 2070,
+              "sha256": "4bd0920bc4f90b58f3589ae8711391fe90a4ba412e06d8078eab23ac0dde2f03"
+            },
+            "licenses/vapoursynth-82.dist-info/licenses/COPYING.LESSER": {
+              "size": 27028,
+              "sha256": "92a759ec0febde4750821736bbde642a3b835c0604fc81bee62f9e428f86981f"
+            },
+            "vapoursynth/libvapoursynth.dll": {
+              "size": 4172288,
+              "sha256": "7085e291aa73fb60515b22fe87d0b76fa5b076cd069f2e49aebadf8b93bacb63"
+            },
+            "vapoursynth/vapoursynth.pyd": {
+              "size": 736768,
+              "sha256": "103b77c58ae70c66f398e32f5b600329dae030e6808adaab8cffbd237a8aa656"
+            },
+            "vapoursynth/vsscript.dll": {
+              "size": 81408,
+              "sha256": "97c095603191daf0b3d4faf0f393fc2b267f0d1d8f3e09cb764f5162104dc775"
+            },
+            "vapoursynth/vsvfw.dll": {
+              "size": 193536,
+              "sha256": "3b84eb00458362796d3ba375099d6d3fbd82c58e20e1bf181788dee9adec62c3"
+            },
+            "vapoursynth/plugins/avscompat.dll": {
+              "size": 253952,
+              "sha256": "ddcac7b1185b83acbeaf3262a1f59554f877b42233b59d45c13398e3da6bfff8"
+            },
+            "vapoursynth/libvapoursynthfilters.dll": {
+              "size": 2991616,
+              "sha256": "009f9a4bfa9bb81bae1e6f9a6033731e9296dce71d1ead172a90f9635fb3713f"
+            },
+            "vapoursynth/__init__.py": {
+              "size": 1677,
+              "sha256": "ca517623ccd5c82ff4d1c4c4d9b00ee0e9ecf176fec0448911cf0e847d2055c1"
+            },
+            "vapoursynth/__main__.py": {
+              "size": 84,
+              "sha256": "a2f9fcbfa43be79e692ffc019ed1fc1a24903df82e83cf67827e876f7c95fe97"
+            },
+            "vapoursynth/_cli.py": {
+              "size": 4196,
+              "sha256": "9b05f5fa5a398a6ba663ea6ef16e352db6b7eb16df130ebd79c613e1081f4bc7"
+            },
+            "vapoursynth/_shell.py": {
+              "size": 8349,
+              "sha256": "36dee2a930cc54e6b90a8f9eb04f24ceddc133f6f6747604f34b869543b0af6e"
+            },
+            "vapoursynth/_utils.py": {
+              "size": 16952,
+              "sha256": "a692aab1feb976b3d1e93a55d80d051b29f1afcc0bfad33a4019b136d3a63eab"
+            }
+          },
+          "origin": "https://pypi.org/project/VapourSynth/82/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/dd/c1/878c1b873c25b1ca6da2ff66fc0968a0fb795f0778446142b4bc0b3ef0bb/vapoursynth_bestsource-23-py3-none-win_amd64.whl",
+          "size": 16086999,
+          "sha256": "b9fe5a88aa0e6501e45320049f9cf8d2d6978e77d8e75ee84ea6090e9ecca2fa",
+          "members": {
+            "vapoursynth/plugins/libbestsource.dll": "vapoursynth/plugins/libbestsource.dll",
+            "vapoursynth_bestsource-23.dist-info/licenses/LICENSE": "licenses/vapoursynth_bestsource-23.dist-info/licenses/LICENSE",
+            "vapoursynth_bestsource-23.dist-info/METADATA": "licenses/vapoursynth_bestsource-23.dist-info/METADATA"
+          },
+          "files": {
+            "vapoursynth/plugins/libbestsource.dll": {
+              "size": 37168640,
+              "sha256": "01e591f0e9b7f1f433ed90ffb09faf6baa23fc18dd35be175be28418401dd873"
+            },
+            "licenses/vapoursynth_bestsource-23.dist-info/licenses/LICENSE": {
+              "size": 1098,
+              "sha256": "296439672f8dbe4ad9be291a95d4893a86b82db5aed20631303c920b562250df"
+            },
+            "licenses/vapoursynth_bestsource-23.dist-info/METADATA": {
+              "size": 18145,
+              "sha256": "52f079861e598b4717da7b2b8e68511ca9152ab554998743075720b4dd689ac6"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-bestsource/23/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/c1/df/9698d8e2f0dfed016ddd1f1dbcb3c464c5e68a09b2aefb0e5287d415955c/vapoursynth_fmtconv-31-py3-none-win_amd64.whl",
+          "size": 2250910,
+          "sha256": "9761744768e1ee1543acbf372092f95d37aeee985ef1bd6dc025cb1804a08293",
+          "members": {
+            "vapoursynth/plugins/fmtconv.dll": "vapoursynth/plugins/fmtconv.dll",
+            "vapoursynth_fmtconv-31.dist-info/METADATA": "licenses/vapoursynth_fmtconv-31.dist-info/METADATA",
+            "vapoursynth_fmtconv-31.dist-info/licenses/COPYING": "licenses/vapoursynth_fmtconv-31.dist-info/licenses/COPYING"
+          },
+          "files": {
+            "vapoursynth/plugins/fmtconv.dll": {
+              "size": 3523584,
+              "sha256": "6e6e173553548607582c5eb3549718eec8f82141376f2377ff7ce643e419e07a"
+            },
+            "licenses/vapoursynth_fmtconv-31.dist-info/METADATA": {
+              "size": 1687,
+              "sha256": "c7fa502fedfec15f409f89f0226d3493a39a7b181333487ccc90746a439350e0"
+            },
+            "licenses/vapoursynth_fmtconv-31.dist-info/licenses/COPYING": {
+              "size": 498,
+              "sha256": "0356258391e190dc1d44ea01565cfe627fe44e27dad693a0a54c2483a7b223e5"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-fmtconv/31/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/99/8e/fb2e045b4fbeda28df0ed6773563a04345a45ca878ad8ce1cb017005fde8/vapoursynth_znedi3-3.3-py3-none-win_amd64.whl",
+          "size": 13179222,
+          "sha256": "28115bbef036b746f68e0b79359de8a69fe0cdcae3320bad55eabb73982bf504",
+          "members": {
+            "vapoursynth_znedi3-3.3.dist-info/METADATA": "licenses/vapoursynth_znedi3-3.3.dist-info/METADATA",
+            "vapoursynth_znedi3-3.3.dist-info/licenses/gpl2.txt": "licenses/vapoursynth_znedi3-3.3.dist-info/licenses/gpl2.txt",
+            "vapoursynth/plugins/znedi3.dll": "vapoursynth/plugins/znedi3.dll",
+            "vapoursynth/plugins/nnedi3_weights.bin": "vapoursynth/plugins/nnedi3_weights.bin"
+          },
+          "files": {
+            "licenses/vapoursynth_znedi3-3.3.dist-info/METADATA": {
+              "size": 7858,
+              "sha256": "7d6fd73eb25238f0208bb7b14de65ebbcf26a67dae354fcb6df3189bef0be2d5"
+            },
+            "licenses/vapoursynth_znedi3-3.3.dist-info/licenses/gpl2.txt": {
+              "size": 18009,
+              "sha256": "204d8eff92f95aac4df6c8122bc1505f468f3a901e5a4cc08940e0ede1938994"
+            },
+            "vapoursynth/plugins/znedi3.dll": {
+              "size": 1506816,
+              "sha256": "b1f89f4ce5f6e646ded00e55eafad711b77bda99617c46019eeb544caabcaa84"
+            },
+            "vapoursynth/plugins/nnedi3_weights.bin": {
+              "size": 13574928,
+              "sha256": "27f382430435bb7613deb1c52f3c79c300c9869812cfe29079432a9c82251d42"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-znedi3/3.3/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/ba/ec/098e3e902c60f8676caceffb655081672a572aa8622e2d23c11dffc34b68/vapoursynth_dfttest2_cpu-11.1.0-py3-none-win_amd64.whl",
+          "size": 229261,
+          "sha256": "cc99e1154308506dc349ac69b7d54ddfab2f38cad4b4b39af84fc174c0f67095",
+          "members": {
+            "vapoursynth/plugins/dfttest2_cpu.dll": "vapoursynth/plugins/dfttest2_cpu.dll",
+            "vapoursynth_dfttest2_cpu-11.1.0.dist-info/METADATA": "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/METADATA",
+            "vapoursynth_dfttest2_cpu-11.1.0.dist-info/licenses/vs-dfttest2/LICENSE": "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/licenses/vs-dfttest2/LICENSE"
+          },
+          "files": {
+            "vapoursynth/plugins/dfttest2_cpu.dll": {
+              "size": 644096,
+              "sha256": "c574c2486d68909e9fa823397bcec3f1f8c99f8d67b4bbed141c3c43d7da029e"
+            },
+            "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/METADATA": {
+              "size": 1240,
+              "sha256": "0a26da9846ebc76f1d20ccbff234dbb697b90b5c6800e10e6369d34eb99e2a0f"
+            },
+            "licenses/vapoursynth_dfttest2_cpu-11.1.0.dist-info/licenses/vs-dfttest2/LICENSE": {
+              "size": 35823,
+              "sha256": "230184f60bae2feaf244f10a8bac053c8ff33a183bcc365b4d8b876d2b7f4809"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-dfttest2-cpu/11.1.0/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/cb/ef/e5ec833e519288166dc24f6c7564218f960057e5ed0e4f30387a478cb8c6/vapoursynth_awarp-3.1-py3-none-win_amd64.whl",
+          "size": 107502,
+          "sha256": "49112a785ab9626b03c7c423371d14061911afc6de5a4c5e5f428afb12e38eba",
+          "members": {
+            "vapoursynth/plugins/awarp.dll": "vapoursynth/plugins/awarp.dll",
+            "vapoursynth_awarp-3.1.dist-info/licenses/LICENSE": "licenses/vapoursynth_awarp-3.1.dist-info/licenses/LICENSE",
+            "vapoursynth_awarp-3.1.dist-info/METADATA": "licenses/vapoursynth_awarp-3.1.dist-info/METADATA"
+          },
+          "files": {
+            "vapoursynth/plugins/awarp.dll": {
+              "size": 245248,
+              "sha256": "d695d546036cb14c75302c3ae477e54f2dc94cd5678e17ef1f8114cfc4786c60"
+            },
+            "licenses/vapoursynth_awarp-3.1.dist-info/licenses/LICENSE": {
+              "size": 1084,
+              "sha256": "18b75268a72d61473af9a8e284f2eaf78b067a6cefe766bf82d53aa2fd51c807"
+            },
+            "licenses/vapoursynth_awarp-3.1.dist-info/METADATA": {
+              "size": 2159,
+              "sha256": "b604da10131a31b779afdf2521c02eb91358f2a3130605dff3d677de789ac047"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-awarp/3.1/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/ea/9a/f9b1147ed3b8830c7098002c1def7ebdd00a21089e9412694813197372ba/vapoursynth_deblock-9.0-py3-none-win_amd64.whl",
+          "size": 147604,
+          "sha256": "586ba1cb9106eb55a39f5bd6ea0c601072515093980599077489ad0b085f67ce",
+          "members": {
+            "vapoursynth/plugins/deblock.dll": "vapoursynth/plugins/deblock.dll",
+            "vapoursynth_deblock-9.0.dist-info/licenses/LICENSE": "licenses/vapoursynth_deblock-9.0.dist-info/licenses/LICENSE",
+            "vapoursynth_deblock-9.0.dist-info/METADATA": "licenses/vapoursynth_deblock-9.0.dist-info/METADATA"
+          },
+          "files": {
+            "vapoursynth/plugins/deblock.dll": {
+              "size": 347648,
+              "sha256": "d82a504e7394bd6c954755c754c84a724361cc33f939c03d4458c5cbbdd1470a"
+            },
+            "licenses/vapoursynth_deblock-9.0.dist-info/licenses/LICENSE": {
+              "size": 18365,
+              "sha256": "2814547f68dde6e73d372e0fecc68c3590d2b6dbb2031c0fb8be861bb2b5b9c3"
+            },
+            "licenses/vapoursynth_deblock-9.0.dist-info/METADATA": {
+              "size": 2071,
+              "sha256": "861ca29c327a5dacc47816da92ac21600aae7d4370c2bdcf12b42eb9a176aa02"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-deblock/9.0/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/5d/22/76482268f01d7b1fb9b8fc3b9e7065eafc0818214297accc57cfc3000ceb/vapoursynth_resize2-0.5.1-py3-none-win_amd64.whl",
+          "size": 258958,
+          "sha256": "c7e8d44cc800b1f2d43151e908794754e11fdd489a27be2f46d26b265d5af03f",
+          "members": {
+            "vapoursynth_resize2-0.5.1.dist-info/METADATA": "licenses/vapoursynth_resize2-0.5.1.dist-info/METADATA",
+            "vapoursynth_resize2-0.5.1.dist-info/licenses/LICENSE.md": "licenses/vapoursynth_resize2-0.5.1.dist-info/licenses/LICENSE.md",
+            "vapoursynth/plugins/resize2.dll": "vapoursynth/plugins/resize2.dll"
+          },
+          "files": {
+            "licenses/vapoursynth_resize2-0.5.1.dist-info/METADATA": {
+              "size": 1990,
+              "sha256": "ec6166f708e803a955239ba77f53a0affd6c33029a13bf51bb2eb396d7434734"
+            },
+            "licenses/vapoursynth_resize2-0.5.1.dist-info/licenses/LICENSE.md": {
+              "size": 26721,
+              "sha256": "ea0bb0aa7090fe601237fee6bf6d5ced743f3f5400dade8bd24291500344dbbb"
+            },
+            "vapoursynth/plugins/resize2.dll": {
+              "size": 741376,
+              "sha256": "7b87b6db73c3fbe205160507770342e8ed89fb923a24dbdafc5f4170a6928733"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-resize2/0.5.1/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/0d/31/95658c029a7ee3bbfc1359f9fa623a13f0a3ff0d940ba9e204421dd7a0ca/vapoursynth_akarin-1.5.0-py3-none-win_amd64.whl",
+          "size": 25910614,
+          "sha256": "66ba011c36f2c0a630c6a6662a40ca62d992b266ea36a0c1bf3c988e1738d7ae",
+          "members": {
+            "vapoursynth/plugins/akarin/libakarin.dll": "vapoursynth/plugins/akarin/libakarin.dll",
+            "vapoursynth/plugins/akarin/libzstd.dll": "vapoursynth/plugins/akarin/libzstd.dll",
+            "vapoursynth_akarin-1.5.0.dist-info/METADATA": "licenses/vapoursynth_akarin-1.5.0.dist-info/METADATA",
+            "vapoursynth_akarin-1.5.0.dist-info/licenses/COPYING.LESSER": "licenses/vapoursynth_akarin-1.5.0.dist-info/licenses/COPYING.LESSER"
+          },
+          "files": {
+            "vapoursynth/plugins/akarin/libakarin.dll": {
+              "size": 66831872,
+              "sha256": "2d4c1bc86a6af87801b2ec1f035b4b112a4a0aed18178aea0258227fcd67152d"
+            },
+            "vapoursynth/plugins/akarin/libzstd.dll": {
+              "size": 1030144,
+              "sha256": "a4a29141c6dc489c59c260b5d4f781c195cea11ed231ee0cbfc6d3803b0708b7"
+            },
+            "licenses/vapoursynth_akarin-1.5.0.dist-info/METADATA": {
+              "size": 18029,
+              "sha256": "53c9bebbb54c62120cafd852c9162c67e3b47cae57f44123f5c0c004b7a7f1b2"
+            },
+            "licenses/vapoursynth_akarin-1.5.0.dist-info/licenses/COPYING.LESSER": {
+              "size": 7817,
+              "sha256": "7d3a95e5e06978064ed3f8e2b7c8f845e7fd8a405294727cc708f94cb83b8059"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-akarin/1.5.0/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/90/f4/92dd31a72569d66f3e76d6d1d472ba4c27838604aea3b0702ccf99e13436/vapoursynth_mvutensils-9-py3-none-win_amd64.whl",
+          "size": 12699360,
+          "sha256": "67429ff16a6f403feb3279cc88fc2a8328be8f806aee28ac287a201385fc0c8e",
+          "members": {
+            "vapoursynth/plugins/mvutensils/mvutensils.dll": "vapoursynth/plugins/mvutensils/mvutensils.dll",
+            "vapoursynth_mvutensils-9.dist-info/licenses/LICENSE": "licenses/vapoursynth_mvutensils-9.dist-info/licenses/LICENSE",
+            "vapoursynth_mvutensils-9.dist-info/METADATA": "licenses/vapoursynth_mvutensils-9.dist-info/METADATA"
+          },
+          "files": {
+            "vapoursynth/plugins/mvutensils/mvutensils.dll": {
+              "size": 15624192,
+              "sha256": "e06ba4d7b3f71a074854689d59325dcd5c7c31b49499aa459b24b770e2191b53"
+            },
+            "licenses/vapoursynth_mvutensils-9.dist-info/licenses/LICENSE": {
+              "size": 18092,
+              "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+            },
+            "licenses/vapoursynth_mvutensils-9.dist-info/METADATA": {
+              "size": 41298,
+              "sha256": "24c99e844c057309a0a2bd93c14d1a73c1cc91a67d5ed35be714dae6b3a928c6"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-mvutensils/9/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/f1/6f/9c75346fa11c76e8350a39c65b579eb9aecc7c8a3df462f629657e45ebc2/vapoursynth_zsmooth-0.20.0-py3-none-win_amd64.whl",
+          "size": 10909304,
+          "sha256": "cdf00644eed5325c1916d96d0368e01572a20bf5d84dd1dc19ec2d84a45dbc5c",
+          "members": {
+            "vapoursynth/plugins/zsmooth/zsmooth.dll": "vapoursynth/plugins/zsmooth/zsmooth.dll",
+            "vapoursynth_zsmooth-0.20.0.dist-info/METADATA": "licenses/vapoursynth_zsmooth-0.20.0.dist-info/METADATA",
+            "vapoursynth_zsmooth-0.20.0.dist-info/licenses/LICENSE": "licenses/vapoursynth_zsmooth-0.20.0.dist-info/licenses/LICENSE"
+          },
+          "files": {
+            "vapoursynth/plugins/zsmooth/zsmooth.dll": {
+              "size": 9228288,
+              "sha256": "a64616fddd19f03cf9dacf77a489ea4d8dd211b829b9de640f5f586028a2bcd9"
+            },
+            "licenses/vapoursynth_zsmooth-0.20.0.dist-info/METADATA": {
+              "size": 52725,
+              "sha256": "29f137eb5d7df5d24050c3e512407f66ce7362954b3024692f2e797424c44c14"
+            },
+            "licenses/vapoursynth_zsmooth-0.20.0.dist-info/licenses/LICENSE": {
+              "size": 1083,
+              "sha256": "4e8049adeaf266a580ff8738729a568465fded9a1bdf25396f234d2b8b07552f"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-zsmooth/0.20.0/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/b2/2e/a030f08d2c02957d2d77023765453be5852c873bcc3e37e3a0b9402e9f4e/vapoursynth_hysteresis-1.4.0-py3-none-win_amd64.whl",
+          "size": 205926,
+          "sha256": "e6213c7b801f2b53651b8ce79bf8a2199fba1596de814ccad336228dc0cc3c5b",
+          "members": {
+            "vapoursynth/plugins/hysteresis/hysteresis.dll": "vapoursynth/plugins/hysteresis/hysteresis.dll",
+            "vapoursynth_hysteresis-1.4.0.dist-info/METADATA": "licenses/vapoursynth_hysteresis-1.4.0.dist-info/METADATA",
+            "vapoursynth_hysteresis-1.4.0.dist-info/licenses/LICENSE.md": "licenses/vapoursynth_hysteresis-1.4.0.dist-info/licenses/LICENSE.md"
+          },
+          "files": {
+            "vapoursynth/plugins/hysteresis/hysteresis.dll": {
+              "size": 137216,
+              "sha256": "d02b822ee19c61a21e13a54a8e8ba8f5bccf9d1230a1c8598a66d8c5d8382255"
+            },
+            "licenses/vapoursynth_hysteresis-1.4.0.dist-info/METADATA": {
+              "size": 2386,
+              "sha256": "36505eb83efaa5927c84e413cbad76ad78e13aaea082caacabdeba729ec343c3"
+            },
+            "licenses/vapoursynth_hysteresis-1.4.0.dist-info/licenses/LICENSE.md": {
+              "size": 1055,
+              "sha256": "b707772b40547dd55743d3c405adbbec8a83de7ece9bd65e58efc13b0c30cc3c"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-hysteresis/1.4.0/"
+        },
+        {
+          "url": "https://files.pythonhosted.org/packages/90/83/1ab8d644ee63a60a5b8b714d58445fe26cae8b85dfb628018b2b22aa4912/vapoursynth_vszip-24.0.0-py3-none-win_amd64.whl",
+          "size": 6404392,
+          "sha256": "95c635d0f1fdd870dd0f08583fa2d9842a7d9bbee36a70158527f9935f0b0761",
+          "members": {
+            "vapoursynth/plugins/vszip/vszip.dll": "vapoursynth/plugins/vszip/vszip.dll",
+            "vapoursynth_vszip-24.0.0.dist-info/METADATA": "licenses/vapoursynth_vszip-24.0.0.dist-info/METADATA",
+            "vapoursynth_vszip-24.0.0.dist-info/licenses/LICENSE": "licenses/vapoursynth_vszip-24.0.0.dist-info/licenses/LICENSE"
+          },
+          "files": {
+            "vapoursynth/plugins/vszip/vszip.dll": {
+              "size": 6669824,
+              "sha256": "2c150ec478f33d9f7d23ff93b043e1f51663bccccb68f5e247508a9f0fb1c181"
+            },
+            "licenses/vapoursynth_vszip-24.0.0.dist-info/METADATA": {
+              "size": 5808,
+              "sha256": "7bf06693d1bcebd706eace5d9647785ffc213b7514ddaef24f09218fc56904c6"
+            },
+            "licenses/vapoursynth_vszip-24.0.0.dist-info/licenses/LICENSE": {
+              "size": 1062,
+              "sha256": "5fca5c6441de09b9a401a435847e60e1c3efd4cea28e20850be06dd5318bec43"
+            }
+          },
+          "origin": "https://pypi.org/project/vapoursynth-vszip/24.0.0/"
+        }
+      ],
+      "size": 112119048,
+      "sha256": "41c772c9e1fbbebb6d3b534e8a98c6f1cc600eea48f5d7d4f0f28cd747960e09"
+    }
+  }
+}
