@@ -90,6 +90,13 @@ original download sources and checksums are pinned in the manifests. Binaries,
 weights, local settings, databases, logs and family footage are excluded from Git.
 Please keep personal files and paths out of public issue reports.
 
+Run the source and security checks before building:
+
+```powershell
+python -m unittest test_repository test_security
+python test_updates.py
+```
+
 ## License and credits
 
 Original app code: **MIT** — see [LICENSE](LICENSE). Third-party tools, libraries

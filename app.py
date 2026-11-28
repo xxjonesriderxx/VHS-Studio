@@ -647,9 +647,22 @@ class Studio(ctk.CTk):
             with closing(sqlite3.connect(dbpath.as_uri() + '?mode=ro', uri=True, timeout=.2)) as db:
                 db.row_factory=sqlite3.Row
                 has_reviews=db.execute("SELECT 1 FROM sqlite_master WHERE type='view' AND name='ocr_latest_reviews'").fetchone()
-                review_fields='r.id AS review_id,r.decision,r.confirmed_date,r.boundary_second,r.uncertainty_second,r.provider,r.model,r.evidence,r.created' if has_reviews else 'NULL AS review_id,NULL AS decision,NULL AS confirmed_date,NULL AS boundary_second,NULL AS uncertainty_second,NULL AS provider,NULL AS model,NULL AS evidence,NULL AS created'
-                join='LEFT JOIN ocr_latest_reviews r ON r.video=s.video AND r.second=s.second AND r.camera_date=s.date' if has_reviews else ''
-                rows = db.execute(f'SELECT v.id AS video_id,v.path,v.size,v.mtime_ns,s.second,s.date,s.raw,{review_fields} FROM ocr_stamps s JOIN ocr_videos v ON v.id=s.video {join} ORDER BY v.path,s.second LIMIT 5000').fetchall()
+                if has_reviews:
+                    query='''SELECT v.id AS video_id,v.path,v.size,v.mtime_ns,s.second,s.date,s.raw,
+                        r.id AS review_id,r.decision,r.confirmed_date,r.boundary_second,
+                        r.uncertainty_second,r.provider,r.model,r.evidence,r.created
+                        FROM ocr_stamps s JOIN ocr_videos v ON v.id=s.video
+                        LEFT JOIN ocr_latest_reviews r ON r.video=s.video
+                        AND r.second=s.second AND r.camera_date=s.date
+                        ORDER BY v.path,s.second LIMIT 5000'''
+                else:
+                    query='''SELECT v.id AS video_id,v.path,v.size,v.mtime_ns,s.second,s.date,s.raw,
+                        NULL AS review_id,NULL AS decision,NULL AS confirmed_date,
+                        NULL AS boundary_second,NULL AS uncertainty_second,NULL AS provider,
+                        NULL AS model,NULL AS evidence,NULL AS created
+                        FROM ocr_stamps s JOIN ocr_videos v ON v.id=s.video
+                        ORDER BY v.path,s.second LIMIT 5000'''
+                rows = db.execute(query).fetchall()
             active=set()
             identities={}
             statuses={'verified':'Bestätigt','corrected':'Korrigiert','uncertain':'Unklar','rejected':'Fehlfund'}

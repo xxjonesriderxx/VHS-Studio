@@ -5,7 +5,7 @@
     "sha256": "93584a7bee14bf6b91a03efdbb128419147279a64934fbc95934c9f53e1191e5",
     "size": 47477423
   },
-  "requirements_sha256": "7a394d2bd099e5c822cec40526c4992df8b0aada54ea8848714642374d2af5a0",
+  "requirements_sha256": "0bc823a492fef108f0a391339e7d994ca3fff596c50b8b15e4e27dc301fb8748",
   "packages": [
     {
       "name": "annotated-types",
@@ -153,9 +153,9 @@
     },
     {
       "name": "pillow",
-      "version": "12.3.0",
-      "url": "https://files.pythonhosted.org/packages/45/89/da2f7971a317f83d807fdd4065c0af40208e59e692cc43d315a71a0e96d1/pillow-12.3.0-cp312-cp312-win_amd64.whl",
-      "sha256": "a2b55dd6b2a4c4b7d87ffa56bdb33fdc5fdb9a462173861a7bc097f17d91cb09"
+      "version": "13.0.0",
+      "url": "https://files.pythonhosted.org/packages/ff/cd/73a79ecdc822076002eb24b5e1e4a530b0bb5310fcb6d239abbec877110b/pillow-13.0.0-cp312-cp312-win_amd64.whl",
+      "sha256": "ff3fe9eb621fbb9db4c4be33ab946f6bac5f98ab50ca8d3260503653656c961b"
     },
     {
       "name": "psutil",

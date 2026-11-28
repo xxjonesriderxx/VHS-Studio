@@ -1,6 +1,6 @@
 # Original upstream wheels installed locally by the user's bootstrap runtime.
 customtkinter==6.0.0
-pillow==12.3.0
+pillow==13.0.0
 mcp==1.30.0
 pywin32==312
 vsjetpack==2.2.7

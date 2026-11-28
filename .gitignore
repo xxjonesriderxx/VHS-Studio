@@ -41,3 +41,20 @@ bootstrap-build/
 bootstrap-dist/
 test-*.json
 test-*.jsonl
+
+# Private credentials, local state and internal working material.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.ssh/
+.aws/
+credentials*.json
+secrets*.json
+audit/
+local-review/
+samples/
+renders/

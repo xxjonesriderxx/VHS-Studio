@@ -8,6 +8,13 @@ from pathlib import Path
 import sqlite3
 import uuid
 
+
+def csv_value(value):
+    """Export untrusted text as text, without changing SQLite or JSON evidence."""
+    if isinstance(value,str) and (value.startswith(('\t','\r','\n')) or value.lstrip(' \t\r\n').startswith(('=','+','-','@'))):
+        return "'"+value
+    return value
+
 def ensure_schema(db):
     db.executescript('''
     CREATE TABLE IF NOT EXISTS ocr_reviews(
@@ -141,7 +148,7 @@ def export(db, directory):
                         writer=csv.writer(handle,delimiter=';')
                         writer.writerow(['video_id','video_path','second','camera_date','raw_text','review_id','decision',
                             'confirmed_date','boundary_second','uncertainty_second','provider','model','evidence','reviewed_at'])
-                        writer.writerows(csvrows)
+                        writer.writerows([csv_value(value) for value in row] for row in csvrows)
                 tmp.replace(directory/f'OCR-Fundstellen.{suffix}')
         finally:
             for tmp in files:

@@ -241,11 +241,7 @@ internal static class Launcher
     {
         string archive = Path.Combine(dir, "runtime.tar.gz");
         ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
-        var request = (HttpWebRequest)WebRequest.Create(downloadUrl);
-        request.UserAgent = "VHS-Studio-Bootstrap";
-        request.Timeout = 60000;
-        request.ReadWriteTimeout = 60000;
-        using (var response = (HttpWebResponse)request.GetResponse())
+        using (var response = OpenRuntimeDownload(downloadUrl))
         using (Stream input = response.GetResponseStream())
         using (var output = new FileStream(archive, FileMode.CreateNew, FileAccess.Write))
         {
@@ -272,6 +268,43 @@ internal static class Launcher
         }
         File.Delete(archive);
         if (!File.Exists(Path.Combine(dir, "python", "python.exe"))) throw new InvalidDataException("Missing runtime executable.");
+    }
+
+    private static bool AllowedRuntimeUri(Uri uri)
+    {
+        return uri.IsAbsoluteUri && uri.Scheme == Uri.UriSchemeHttps && uri.IsDefaultPort &&
+            uri.UserInfo.Length == 0 &&
+            (uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase) ||
+             uri.Host.Equals("release-assets.githubusercontent.com", StringComparison.OrdinalIgnoreCase) ||
+             uri.Host.Equals("objects.githubusercontent.com", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static HttpWebResponse OpenRuntimeDownload(string url)
+    {
+        Uri current = new Uri(url, UriKind.Absolute);
+        for (int redirects = 0; redirects <= 8; redirects++)
+        {
+            if (!AllowedRuntimeUri(current)) throw new InvalidDataException("Untrusted runtime download address.");
+            var request = (HttpWebRequest)WebRequest.Create(current);
+            request.UserAgent = "VHS-Studio-Bootstrap";
+            request.Timeout = 60000;
+            request.ReadWriteTimeout = 60000;
+            request.AllowAutoRedirect = false;
+            var response = (HttpWebResponse)request.GetResponse();
+            int status = (int)response.StatusCode;
+            if (status == 301 || status == 302 || status == 303 || status == 307 || status == 308)
+            {
+                string location = response.Headers["Location"];
+                response.Close();
+                if (String.IsNullOrEmpty(location)) throw new InvalidDataException("Missing runtime redirect address.");
+                current = new Uri(current, location);
+                continue;
+            }
+            if (status == 200) return response;
+            response.Close();
+            throw new InvalidDataException("Unexpected runtime download response.");
+        }
+        throw new InvalidDataException("Too many runtime download redirects.");
     }
 
     private static string Field(byte[] header, int start, int length)

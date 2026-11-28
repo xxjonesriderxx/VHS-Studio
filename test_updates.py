@@ -8,6 +8,10 @@ import sys
 import tempfile
 from unittest.mock import patch
 import app_updates as updates
+from datetime import date,timedelta
+from app_version import VERSION
+
+future_version=(date.fromisoformat('-'.join(VERSION.split('-')[:3]))+timedelta(days=1)).isoformat()
 
 assert updates.version_key('2026-11-25')<updates.version_key('2026-11-25-2')<updates.version_key('2026-11-26')
 for bad in ('v1.0.0','2026-02-30','2026-11','2026-11-25-beta'):
@@ -27,9 +31,9 @@ with patch.dict(os.environ,{'VHS_STUDIO_BOOTSTRAP':'1','VHS_STUDIO_EXE':str(Path
             raise AssertionError('Bootstrap attempted to update Python')
         except ValueError:
             pass
-release=dict(draft=False,prerelease=False,tag_name='2026-11-26',assets=[dict(
-    name='VHS-Studio-2026-11-26.exe',size=len(blob),digest='sha256:'+checksum,
-    browser_download_url='https://github.com/xxjonesriderxx/VHS-Studio/releases/download/2026-11-26/VHS-Studio-2026-11-26.exe')])
+release=dict(draft=False,prerelease=False,tag_name=future_version,assets=[dict(
+    name=f'VHS-Studio-{future_version}.exe',size=len(blob),digest='sha256:'+checksum,
+    browser_download_url=f'https://github.com/xxjonesriderxx/VHS-Studio/releases/download/{future_version}/VHS-Studio-{future_version}.exe')])
 class Response(io.BytesIO):
     pass
 class Opener:
@@ -38,7 +42,7 @@ class Opener:
 with tempfile.TemporaryDirectory(prefix='VHS-update-check-') as folder:
     root=Path(folder)
     with patch.dict(os.environ,{'LOCALAPPDATA':str(root)}),patch.object(updates,'opener',return_value=Opener()):
-        info=updates.latest();assert info['version']=='2026-11-26'
+        info=updates.latest();assert info['version']==future_version
         staged=updates.stage(info);assert staged.read_bytes()==blob
         original=root/'original.exe';original.write_bytes(b'ORIGINAL DUMMY')
         request=root/'request.json'

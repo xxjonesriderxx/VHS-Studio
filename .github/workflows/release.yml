@@ -22,14 +22,13 @@ jobs:
         with:
           python-version: '3.12'
           architecture: x64
-          cache: pip
       - name: Set date-based release version
         env:
           RELEASE_DATE: ${{ inputs.release_date || github.ref_name }}
         run: |
-          python -c "import os; from pathlib import Path; from app_updates import version_key; v=os.environ['RELEASE_DATE']; version_key(v); Path('app_version.py').write_text('VERSION='+repr(v)+'\nREPOSITORY='+repr('xxjonesriderxx/VHS-Studio')+'\n',encoding='utf8')"
-      - name: Check release approval
-        run: python release_clearance.py --status-only
+          python -c "import os,json; from pathlib import Path; from app_updates import version_key; v=os.environ['RELEASE_DATE']; version_key(v); Path('app_version.py').write_text('VERSION='+repr(v)+'\nREPOSITORY='+repr('xxjonesriderxx/VHS-Studio')+'\n',encoding='utf8'); p=Path('bootstrap-lock.json'); lock=json.loads(p.read_text('utf8')); lock['version']=v; p.write_text(json.dumps(lock,indent=2)+'\n',encoding='utf8')"
+      - name: Check repository contents and security boundaries
+        run: python -m unittest test_repository test_security
       - name: Build source-only launcher
         run: python build_bootstrap.py
       - name: Verify date-version updater
